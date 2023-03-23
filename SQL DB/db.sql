@@ -1,7 +1,7 @@
 /*
     !Creación de la base de datos
 */
-CREATE DATABASE electronic-homes;
+CREATE DATABASE electronichomes;
 
 CREATE SCHEMA ControlVentas;
 CREATE SCHEMA ControlUsuarios;
@@ -51,6 +51,7 @@ CREATE TABLE ControlSucursal.Inventario(
     existencia INT NOT NULL,
     id_sucursal INT NOT NULL,
     id_electrodomestico INT NOT NULL,
+    estado INT NOT NULL,
     PRIMARY KEY ( id_inventario ),
     FOREIGN KEY ( id_sucursal ) REFERENCES ControlSucursal.Sucursal( id_sucursal ),
     FOREIGN KEY ( id_electrodomestico ) REFERENCES ControlSucursal.Electrodomestico( id_electrodomestico )
@@ -67,14 +68,16 @@ CREATE TABLE ControlVentas.DetalleVenta(
     FOREIGN KEY( id_inventario ) REFERENCES ControlSucursal.Inventario( id_inventario )
 );
 
-/*
-    ?Creación de Roles para el acceso al sistema
-*/
 
 /*
-    *INSERTS de usuarios al sistema de base de datos
+    *INSERTS de sucursales al sistema de base de datos
 */
 
+INSERT INTO ControlSucursal.Sucursal VALUES
+                        (1, ""),
+                        (2, ""),
+                        (3, ""),
+                        (4, "Bodega");
 
 /*
     !QUERYS para el administrador
