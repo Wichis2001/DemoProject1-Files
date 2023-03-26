@@ -3,9 +3,14 @@
 */
 CREATE DATABASE electronichomes;
 
+\c electronichomes;
+
+CREATE EXTENSION pgcrypto;
+
 CREATE SCHEMA ControlVentas;
 CREATE SCHEMA ControlUsuarios;
 CREATE SCHEMA ControlSucursal;
+
 
 CREATE TABLE ControlUsuarios.Cliente(
     nit VARCHAR( 8 ) NOT NULL,
@@ -15,14 +20,14 @@ CREATE TABLE ControlUsuarios.Cliente(
 );
 
 CREATE TABLE ControlSucursal.Sucursal(
-    id_sucursal SERIAL NOT NULL,
+    id_sucursal SERIAL,
     nombre VARCHAR( 100 ) NOT NULL,
     PRIMARY KEY( id_sucursal )
 );
 
 CREATE TABLE ControlUsuarios.Empleado(
     username VARCHAR( 45 ) NOT NULL,
-    contrasenia VARCHAR( 45 ) NOT NULL,
+    contrasenia CHAR( 60 ) NOT NULL,
     rol INT NOT NULL,
     id_sucursal INT NOT NULL,
     PRIMARY KEY ( username ),
@@ -32,7 +37,7 @@ CREATE TABLE ControlUsuarios.Empleado(
 CREATE TABLE ControlVentas.Venta(
     id_venta SERIAL NOT NULL,
     total FLOAT NOT NULL,
-    nit INT NOT NULL,
+    nit VARCHAR( 8 ) NOT NULL,
     username VARCHAR( 45 ) NOT NULL,
     PRIMARY KEY ( id_venta ),
     FOREIGN KEY ( nit ) REFERENCES ControlUsuarios.Cliente( nit ),
@@ -73,12 +78,16 @@ CREATE TABLE ControlVentas.DetalleVenta(
     *INSERTS de sucursales al sistema de base de datos
 */
 
-INSERT INTO ControlSucursal.Sucursal VALUES
-                        (1, ""),
-                        (2, ""),
-                        (3, ""),
-                        (4, "Bodega");
+INSERT INTO ControlSucursal.Sucursal ( nombre ) VALUES
+                        ('Sucursal Central'),
+                        ('Sucursal Norte'),
+                        ('Sucursal Sur'),
+                        ('Bodega'),
+                        ('Admin');
 
 /*
     !QUERYS para el administrador
 */
+
+DELETE FROM ControlSucursal.Electrodomestico WHERE id_electrodomestico = ?;
+DELETE FROM ControlSucursal.Inventario WHERE id_inventario = ?;

@@ -5,7 +5,12 @@
 package ui.login;
 
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import manejadores.ManejadorLogin;
+import postgres.Conexion;
 
 /**
  *
@@ -16,9 +21,12 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    ManejadorLogin manejador = new ManejadorLogin();
+    
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+        iniciarSesion.setEnabled( false );
     }
 
     /**
@@ -36,9 +44,9 @@ public class Login extends javax.swing.JFrame {
         textoSecundario1 = new javax.swing.JLabel();
         logInText1 = new javax.swing.JLabel();
         logInText2 = new javax.swing.JLabel();
-        contrasenia = new javax.swing.JTextField();
         nombre = new javax.swing.JTextField();
         iniciarSesion = new javax.swing.JButton();
+        contrasenia = new javax.swing.JPasswordField();
         salir = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
@@ -49,7 +57,7 @@ public class Login extends javax.swing.JFrame {
         tituloPrincipal.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 48)); // NOI18N
         tituloPrincipal.setForeground(new java.awt.Color(0, 0, 0));
         tituloPrincipal.setText("ELECTRONIC-HOMES");
-        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 20, 620, 50));
+        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 560, 50));
 
         logInText.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 24)); // NOI18N
         logInText.setForeground(new java.awt.Color(0, 0, 0));
@@ -74,17 +82,13 @@ public class Login extends javax.swing.JFrame {
         logInText2.setText("Nombre:");
         getContentPane().add(logInText2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 450, 130, 60));
 
-        contrasenia.setBackground(new java.awt.Color(0, 102, 204));
-        contrasenia.setFont(new java.awt.Font("sansserif", 3, 14)); // NOI18N
-        contrasenia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                contraseniaKeyPressed(evt);
-            }
-        });
-        getContentPane().add(contrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 520, 390, 40));
-
         nombre.setBackground(new java.awt.Color(0, 102, 204));
         nombre.setFont(new java.awt.Font("sansserif", 3, 14)); // NOI18N
+        nombre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreActionPerformed(evt);
+            }
+        });
         nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 nombreKeyPressed(evt);
@@ -93,15 +97,15 @@ public class Login extends javax.swing.JFrame {
         getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 460, 390, 40));
 
         iniciarSesion.setBackground(new java.awt.Color(0, 102, 204));
-        iniciarSesion.setFont(new java.awt.Font("Anonymice Powerline", 3, 24)); // NOI18N
+        iniciarSesion.setFont(new java.awt.Font("Anonymice Powerline", 3, 18)); // NOI18N
         iniciarSesion.setText("INICIAR SESIÓN");
         iniciarSesion.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 iniciarSesionAncestorAdded(evt);
             }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         iniciarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +119,20 @@ public class Login extends javax.swing.JFrame {
             }
         });
         getContentPane().add(iniciarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, 230, 120));
+
+        contrasenia.setBackground(new java.awt.Color(0, 102, 204));
+        contrasenia.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
+        contrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contraseniaActionPerformed(evt);
+            }
+        });
+        contrasenia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                contraseniaKeyPressed(evt);
+            }
+        });
+        getContentPane().add(contrasenia, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 510, 390, 40));
 
         salir.setBackground(new java.awt.Color(0, 102, 204));
         salir.setFont(new java.awt.Font("Anonymice Powerline", 3, 24)); // NOI18N
@@ -141,22 +159,22 @@ public class Login extends javax.swing.JFrame {
         int response = JOptionPane.showConfirmDialog(this,"¿Quieres salir del Programa?", "SALIR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(this, "Saliendo...");
+            try {
+                Conexion.dbConnection.close();
+            } catch (SQLException ex) {
+                System.err.println( "Error al cerrar la conexión con la base de datos " + ex.getMessage() );
+            }
             //Salimos del programa
             System.exit(0);
         }
     }//GEN-LAST:event_salirActionPerformed
 
     private void nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyPressed
+        manejador.permitirLogIn(nombre, contrasenia, iniciarSesion);
         if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
             contrasenia.requestFocus();
         }
     }//GEN-LAST:event_nombreKeyPressed
-
-    private void contraseniaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contraseniaKeyPressed
-        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
-            iniciarSesion.requestFocus();
-        }
-    }//GEN-LAST:event_contraseniaKeyPressed
 
     private void iniciarSesionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_iniciarSesionKeyPressed
         if( evt.getKeyCode()==KeyEvent.VK_RIGHT ) {
@@ -165,7 +183,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_iniciarSesionKeyPressed
 
     private void iniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniciarSesionActionPerformed
-        
+        manejador.logIn( nombre, contrasenia, this, iniciarSesion );
     }//GEN-LAST:event_iniciarSesionActionPerformed
 
     private void iniciarSesionAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_iniciarSesionAncestorAdded
@@ -178,10 +196,32 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_salirKeyPressed
 
+    private void contraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contraseniaActionPerformed
+
+    }//GEN-LAST:event_contraseniaActionPerformed
+
+    private void contraseniaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_contraseniaKeyPressed
+        manejador.permitirLogIn(nombre, contrasenia, iniciarSesion);
+        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
+            manejador.permitirLogIn(nombre, contrasenia, iniciarSesion);
+            if( iniciarSesion.isEnabled() ){
+                iniciarSesion.requestFocus();
+            } else {
+                nombre.requestFocus();
+            }
+            
+        }
+    }//GEN-LAST:event_contraseniaKeyPressed
+
+    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
+        
+    }//GEN-LAST:event_nombreActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        Conexion con = new Conexion();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -208,13 +248,18 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                if( con.inicializarConexion() ){
+                     new Login().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog( null , "Hubo en error al tratar de conectase al sistema", "ERROR",JOptionPane.ERROR_MESSAGE );
+                }
+               
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField contrasenia;
+    private javax.swing.JPasswordField contrasenia;
     private javax.swing.JLabel fondo;
     private javax.swing.JLabel icono;
     private javax.swing.JButton iniciarSesion;
