@@ -14,6 +14,7 @@ public class Electrodomestico {
     private String nombre;
     private float precio;
     private int existencia;
+    private int idInventario;
 
     public Electrodomestico(int idElectrodomestico, String nombre, float precio, int existencia) {
         this.idElectrodomestico = idElectrodomestico;
@@ -22,7 +23,25 @@ public class Electrodomestico {
         this.existencia = existencia;
     }
 
+    public Electrodomestico(int idElectrodomestico, String nombre, float precio, int existencia, int idInventario) {
+        this.idElectrodomestico = idElectrodomestico;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.existencia = existencia;
+        this.idInventario = idInventario;
+    }
+    
+    
+
     public Electrodomestico() {
+    }
+
+    public int getIdInventario() {
+        return idInventario;
+    }
+
+    public void setIdInventario(int idInventario) {
+        this.idInventario = idInventario;
     }
     
 

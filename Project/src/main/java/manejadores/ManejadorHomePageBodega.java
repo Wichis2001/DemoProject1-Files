@@ -185,7 +185,9 @@ public class ManejadorHomePageBodega {
     }
     
     public void eliminarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana ){
-        if( verificarLLenado(ventana, nombre, precio, existencia) ){
+        int response = JOptionPane.showConfirmDialog(ventana,"¿Estas Seguro de eliminar este Registro?", "ELIMINAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (response==JOptionPane.YES_OPTION){
+            if( verificarLLenado(ventana, nombre, precio, existencia) ){
              Electrodomestico electrodomestico = new Electrodomestico();
              electrodomestico.setIdElectrodomestico(idElectrodomestico);
              electrodomestico.setExistencia(Integer.parseInt(existencia.getText()));
@@ -196,9 +198,12 @@ public class ManejadorHomePageBodega {
                 llenarTabla(ventana);
              } else {
                  JOptionPane.showMessageDialog(null, "El producto de bodega no fue eliminado correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-             }
-             limpiezaCampos(nombre, precio, existencia, agregar, modificar, eliminar);
+             } 
          }
+        }
+        limpiezaCampos(nombre, precio, existencia, agregar, modificar, eliminar);
+        
+        
     }
     
     

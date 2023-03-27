@@ -7,9 +7,13 @@ package ui.venta;
 import ui.bodega.*;
 import electrodomesticos.Electrodomestico;
 import java.awt.event.KeyEvent;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import manejadores.ManejadorHomePageBodega;
+import manejadores.ManejadorVenta;
 import ui.login.Login;
 import users.Empleado;
 
@@ -19,24 +23,65 @@ import users.Empleado;
  */
 public class Venta extends javax.swing.JFrame {
     
-    ManejadorHomePageBodega manejador = new ManejadorHomePageBodega();
-    Empleado empleado;
-    Electrodomestico electrodomestico = new Electrodomestico();
+    private Empleado empleado;
+    private users.Cliente cliente;
+    private ManejadorVenta manejador = new ManejadorVenta();
+    
     /**
      * Creates new form HomePage
      */
     public Venta( Empleado empleado ) {
         initComponents();
         this.setLocationRelativeTo(null);
-        nombreEmpleado.setText( empleado.getUsername() );
         this.empleado = empleado;
-        this.tabla.setEnabled(false);
-//        manejador.llenarTabla(this);
+        nombreEmpleado.setText( empleado.getUsername() );
+        switch ( empleado.getId_sucursal() ) {
+            case 1:
+                sucursalEmpleado.setText("Central");
+                break;
+            case 2:
+                sucursalEmpleado.setText("Norte");
+                break;
+            case 3:
+                sucursalEmpleado.setText("Sur");
+                break;
+            default:
+                sucursalEmpleado.setText("ERROR");
+        }
+        manejador.llenarNombreProductos(empleado.getId_sucursal(), nombreProducto);
+        buscarProducto.setEnabled(false);
+        manejador.llenarTabla(this);
     }
     
     public JTable getTable(){
         return this.tabla;
     }
+
+    public JTextField getNit() {
+        return nit;
+    }
+
+    public JComboBox<String> getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public JButton getBuscarCliente() {
+        return buscarCliente;
+    }
+
+    public JButton getEditar() {
+        return editar;
+    }
+
+    public JTextField getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(JTextField nombre) {
+        this.nombre = nombre;
+    }
+
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,30 +105,36 @@ public class Venta extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         subtitulo1 = new javax.swing.JLabel();
-        existenciaLabel = new javax.swing.JLabel();
-        nombreLabel = new javax.swing.JLabel();
-        precioLabel = new javax.swing.JLabel();
-        existencia = new javax.swing.JTextField();
+        nitLabel = new javax.swing.JLabel();
+        nombreClienteLabel = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        eliminar = new javax.swing.JButton();
-        agregar = new javax.swing.JButton();
+        cancelarVenta = new javax.swing.JButton();
+        editar = new javax.swing.JButton();
         modificar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        nombreLabel1 = new javax.swing.JLabel();
-        nombre1 = new javax.swing.JTextField();
+        icono = new javax.swing.JLabel();
+        nombreProducto = new javax.swing.JComboBox<>();
+        tipoClienteLabel = new javax.swing.JLabel();
+        nit = new javax.swing.JTextField();
         subtitulo2 = new javax.swing.JLabel();
-        nombreLabel2 = new javax.swing.JLabel();
-        agregar1 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        existenciaLabel1 = new javax.swing.JLabel();
-        existencia1 = new javax.swing.JTextField();
-        existenciaLabel2 = new javax.swing.JLabel();
-        existencia2 = new javax.swing.JTextField();
-        existenciaLabel3 = new javax.swing.JLabel();
-        existencia3 = new javax.swing.JTextField();
-        Agregar = new javax.swing.JButton();
-        eliminar1 = new javax.swing.JButton();
+        nombreProductoLabel = new javax.swing.JLabel();
+        buscarProducto = new javax.swing.JButton();
+        tipoCliente = new javax.swing.JComboBox<>();
+        precioLabel = new javax.swing.JLabel();
+        precio = new javax.swing.JTextField();
+        cantidadLabel = new javax.swing.JLabel();
+        cantidad = new javax.swing.JTextField();
+        stockLabel = new javax.swing.JLabel();
+        stock = new javax.swing.JTextField();
+        agregar = new javax.swing.JButton();
+        eliminar = new javax.swing.JButton();
+        seleccionar = new javax.swing.JButton();
+        existenciaLabel4 = new javax.swing.JLabel();
+        total = new javax.swing.JTextField();
+        existenciaLabel5 = new javax.swing.JLabel();
+        total1 = new javax.swing.JTextField();
+        existenciaLabel6 = new javax.swing.JLabel();
+        total2 = new javax.swing.JTextField();
+        buscarCliente = new javax.swing.JButton();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -99,7 +150,7 @@ public class Venta extends javax.swing.JFrame {
         tituloPrincipal.setFont(new java.awt.Font("Courier 10 Pitch", 1, 48)); // NOI18N
         tituloPrincipal.setForeground(new java.awt.Color(0, 0, 153));
         tituloPrincipal.setText("PANTALLA DE VENTA");
-        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 550, 70));
+        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 550, 70));
 
         subtitulo.setFont(new java.awt.Font("Courier 10 Pitch", 0, 24)); // NOI18N
         subtitulo.setForeground(new java.awt.Color(0, 0, 153));
@@ -108,12 +159,11 @@ public class Venta extends javax.swing.JFrame {
 
         sucursalEmpleado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
         sucursalEmpleado.setForeground(new java.awt.Color(0, 0, 153));
-        sucursalEmpleado.setText("Bodega");
-        getContentPane().add(sucursalEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 60, -1));
+        getContentPane().add(sucursalEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 460, -1));
 
         nombreEmpleado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
         nombreEmpleado.setForeground(new java.awt.Color(0, 0, 153));
-        getContentPane().add(nombreEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 180, 690, -1));
+        getContentPane().add(nombreEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 130, 620, 20));
 
         nombreTitulo.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
         nombreTitulo.setForeground(new java.awt.Color(0, 0, 153));
@@ -131,12 +181,12 @@ public class Venta extends javax.swing.JFrame {
                 RegresarMouseClicked(evt);
             }
         });
-        getContentPane().add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1630, 590, -1, -1));
+        getContentPane().add(Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1830, 590, -1, -1));
 
         logOut.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
         logOut.setForeground(new java.awt.Color(1, 1, 1));
         logOut.setText("LogOut");
-        getContentPane().add(logOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(1640, 670, -1, -1));
+        getContentPane().add(logOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(1840, 670, -1, -1));
 
         jScrollPane1.setBackground(new java.awt.Color(0, 0, 153));
 
@@ -153,46 +203,30 @@ public class Venta extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tabla.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tabla);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 220, 850, 360));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 220, 1050, 360));
 
         subtitulo1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 36)); // NOI18N
         subtitulo1.setForeground(new java.awt.Color(0, 0, 153));
         subtitulo1.setText("Genera una nueva venta para la empresa.");
-        getContentPane().add(subtitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 70, -1, -1));
+        getContentPane().add(subtitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 70, -1, -1));
 
-        existenciaLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        existenciaLabel.setForeground(new java.awt.Color(0, 0, 153));
-        existenciaLabel.setText("Nombre Producto:");
-        getContentPane().add(existenciaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 450, -1, -1));
+        nitLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        nitLabel.setForeground(new java.awt.Color(0, 0, 153));
+        nitLabel.setText("NIT:");
+        getContentPane().add(nitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
 
-        nombreLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        nombreLabel.setForeground(new java.awt.Color(0, 0, 153));
-        nombreLabel.setText("NIT:");
-        getContentPane().add(nombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, -1, -1));
-
-        precioLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        precioLabel.setForeground(new java.awt.Color(0, 0, 153));
-        precioLabel.setText("Datos del Cliente:");
-        getContentPane().add(precioLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 350, -1, -1));
-
-        existencia.setBackground(new java.awt.Color(102, 255, 255));
-        existencia.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        existencia.setForeground(new java.awt.Color(0, 0, 153));
-        existencia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                existenciaKeyTyped(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                existenciaKeyPressed(evt);
-            }
-        });
-        getContentPane().add(existencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 440, 220, 30));
+        nombreClienteLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        nombreClienteLabel.setForeground(new java.awt.Color(0, 0, 153));
+        nombreClienteLabel.setText("Nombre del Cliente:");
+        getContentPane().add(nombreClienteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 340, -1, -1));
 
         nombre.setBackground(new java.awt.Color(102, 255, 255));
         nombre.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
         nombre.setForeground(new java.awt.Color(0, 0, 153));
+        nombre.setEnabled(false);
         nombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 nombreKeyTyped(evt);
@@ -201,36 +235,36 @@ public class Venta extends javax.swing.JFrame {
                 nombreKeyPressed(evt);
             }
         });
-        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 350, 160, 30));
+        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 340, 160, 30));
 
-        eliminar.setBackground(new java.awt.Color(102, 255, 255));
-        eliminar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        eliminar.setForeground(new java.awt.Color(0, 0, 153));
-        eliminar.setText("Cancelar");
-        eliminar.setEnabled(false);
-        eliminar.addKeyListener(new java.awt.event.KeyAdapter() {
+        cancelarVenta.setBackground(new java.awt.Color(102, 255, 255));
+        cancelarVenta.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        cancelarVenta.setForeground(new java.awt.Color(0, 0, 153));
+        cancelarVenta.setText("Cancelar Venta");
+        cancelarVenta.setEnabled(false);
+        cancelarVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                eliminarKeyPressed(evt);
+                cancelarVentaKeyPressed(evt);
             }
         });
-        getContentPane().add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1260, 600, 130, 50));
+        getContentPane().add(cancelarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(1540, 590, 160, 50));
 
-        agregar.setBackground(new java.awt.Color(102, 255, 255));
-        agregar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        agregar.setForeground(new java.awt.Color(0, 0, 153));
-        agregar.setText("Buscar");
-        agregar.setEnabled(false);
-        agregar.addActionListener(new java.awt.event.ActionListener() {
+        editar.setBackground(new java.awt.Color(102, 255, 255));
+        editar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        editar.setForeground(new java.awt.Color(0, 0, 153));
+        editar.setText("Editar");
+        editar.setEnabled(false);
+        editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarActionPerformed(evt);
+                editarActionPerformed(evt);
             }
         });
-        agregar.addKeyListener(new java.awt.event.KeyAdapter() {
+        editar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                agregarKeyPressed(evt);
+                editarKeyPressed(evt);
             }
         });
-        getContentPane().add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 120, 40));
+        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 40));
 
         modificar.setBackground(new java.awt.Color(102, 255, 255));
         modificar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
@@ -242,149 +276,274 @@ public class Venta extends javax.swing.JFrame {
                 modificarKeyPressed(evt);
             }
         });
-        getContentPane().add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 600, 190, 50));
+        getContentPane().add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 590, 190, 50));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pngwing.com (8) (1).png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 110, -1, -1));
+        icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pngwing.com (8) (1).png"))); // NOI18N
+        getContentPane().add(icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 120, -1, -1));
 
-        jComboBox1.setBackground(new java.awt.Color(102, 255, 255));
-        jComboBox1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        jComboBox1.setForeground(new java.awt.Color(0, 0, 153));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 160, 30));
-
-        nombreLabel1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        nombreLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        nombreLabel1.setText("Tipo Cliente:");
-        getContentPane().add(nombreLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
-
-        nombre1.setBackground(new java.awt.Color(102, 255, 255));
-        nombre1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        nombre1.setForeground(new java.awt.Color(0, 0, 153));
-        nombre1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                nombre1KeyTyped(evt);
-            }
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                nombre1KeyPressed(evt);
+        nombreProducto.setBackground(new java.awt.Color(102, 255, 255));
+        nombreProducto.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        nombreProducto.setForeground(new java.awt.Color(0, 0, 153));
+        nombreProducto.setEnabled(false);
+        nombreProducto.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                nombreProductoItemStateChanged(evt);
             }
         });
-        getContentPane().add(nombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 160, 30));
+        nombreProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nombreProductoMouseClicked(evt);
+            }
+        });
+        nombreProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nombreProductoActionPerformed(evt);
+            }
+        });
+        getContentPane().add(nombreProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 440, 220, 30));
+
+        tipoClienteLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        tipoClienteLabel.setForeground(new java.awt.Color(0, 0, 153));
+        tipoClienteLabel.setText("Tipo Cliente:");
+        getContentPane().add(tipoClienteLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, -1));
+
+        nit.setBackground(new java.awt.Color(102, 255, 255));
+        nit.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        nit.setForeground(new java.awt.Color(0, 0, 153));
+        nit.setEnabled(false);
+        nit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nitKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nitKeyPressed(evt);
+            }
+        });
+        getContentPane().add(nit, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 160, 30));
 
         subtitulo2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 24)); // NOI18N
         subtitulo2.setForeground(new java.awt.Color(0, 0, 153));
         subtitulo2.setText("Datos del Cliente");
         getContentPane().add(subtitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 240, -1));
 
-        nombreLabel2.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        nombreLabel2.setForeground(new java.awt.Color(0, 0, 153));
-        nombreLabel2.setText("Codigo Producto:");
-        getContentPane().add(nombreLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, -1));
+        nombreProductoLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        nombreProductoLabel.setForeground(new java.awt.Color(0, 0, 153));
+        nombreProductoLabel.setText("Nombre Producto:");
+        getContentPane().add(nombreProductoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 450, -1, -1));
 
-        agregar1.setBackground(new java.awt.Color(102, 255, 255));
-        agregar1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        agregar1.setForeground(new java.awt.Color(0, 0, 153));
-        agregar1.setText("Buscar");
-        agregar1.setEnabled(false);
-        agregar1.addActionListener(new java.awt.event.ActionListener() {
+        buscarProducto.setBackground(new java.awt.Color(102, 255, 255));
+        buscarProducto.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        buscarProducto.setForeground(new java.awt.Color(0, 0, 153));
+        buscarProducto.setText("Buscar");
+        buscarProducto.setEnabled(false);
+        buscarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregar1ActionPerformed(evt);
+                buscarProductoActionPerformed(evt);
             }
         });
-        agregar1.addKeyListener(new java.awt.event.KeyAdapter() {
+        buscarProducto.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                agregar1KeyPressed(evt);
+                buscarProductoKeyPressed(evt);
             }
         });
-        getContentPane().add(agregar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 440, 120, 40));
+        getContentPane().add(buscarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 440, 120, 40));
 
-        jComboBox2.setBackground(new java.awt.Color(102, 255, 255));
-        jComboBox2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        jComboBox2.setForeground(new java.awt.Color(0, 0, 153));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 210, 30));
+        tipoCliente.setBackground(new java.awt.Color(102, 255, 255));
+        tipoCliente.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        tipoCliente.setForeground(new java.awt.Color(0, 0, 153));
+        tipoCliente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "C/F", "Cliente" }));
+        tipoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tipoClienteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(tipoCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 290, 210, 30));
 
-        existenciaLabel1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        existenciaLabel1.setForeground(new java.awt.Color(0, 0, 153));
-        existenciaLabel1.setText("Precio:");
-        getContentPane().add(existenciaLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 510, -1, -1));
+        precioLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        precioLabel.setForeground(new java.awt.Color(0, 0, 153));
+        precioLabel.setText("Precio:");
+        getContentPane().add(precioLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 520, -1, -1));
 
-        existencia1.setBackground(new java.awt.Color(102, 255, 255));
-        existencia1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        existencia1.setForeground(new java.awt.Color(0, 0, 153));
-        existencia1.addKeyListener(new java.awt.event.KeyAdapter() {
+        precio.setBackground(new java.awt.Color(102, 255, 255));
+        precio.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        precio.setForeground(new java.awt.Color(0, 0, 153));
+        precio.setEnabled(false);
+        precio.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                existencia1KeyTyped(evt);
+                precioKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                existencia1KeyPressed(evt);
+                precioKeyPressed(evt);
             }
         });
-        getContentPane().add(existencia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 500, 110, 30));
+        getContentPane().add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 520, 110, 30));
 
-        existenciaLabel2.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        existenciaLabel2.setForeground(new java.awt.Color(0, 0, 153));
-        existenciaLabel2.setText("Cantidad:");
-        getContentPane().add(existenciaLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 510, -1, -1));
+        cantidadLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        cantidadLabel.setForeground(new java.awt.Color(0, 0, 153));
+        cantidadLabel.setText("Cantidad:");
+        getContentPane().add(cantidadLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, -1, -1));
 
-        existencia2.setBackground(new java.awt.Color(102, 255, 255));
-        existencia2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        existencia2.setForeground(new java.awt.Color(0, 0, 153));
-        existencia2.addKeyListener(new java.awt.event.KeyAdapter() {
+        cantidad.setBackground(new java.awt.Color(102, 255, 255));
+        cantidad.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        cantidad.setForeground(new java.awt.Color(0, 0, 153));
+        cantidad.setEnabled(false);
+        cantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                existencia2KeyTyped(evt);
+                cantidadKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                existencia2KeyPressed(evt);
+                cantidadKeyPressed(evt);
             }
         });
-        getContentPane().add(existencia2, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 500, 120, 30));
+        getContentPane().add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 520, 120, 30));
 
-        existenciaLabel3.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
-        existenciaLabel3.setForeground(new java.awt.Color(0, 0, 153));
-        existenciaLabel3.setText("Stock:");
-        getContentPane().add(existenciaLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, -1));
+        stockLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        stockLabel.setForeground(new java.awt.Color(0, 0, 153));
+        stockLabel.setText("Stock:");
+        getContentPane().add(stockLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 450, 70, -1));
 
-        existencia3.setBackground(new java.awt.Color(102, 255, 255));
-        existencia3.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        existencia3.setForeground(new java.awt.Color(0, 0, 153));
-        existencia3.addKeyListener(new java.awt.event.KeyAdapter() {
+        stock.setBackground(new java.awt.Color(102, 255, 255));
+        stock.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        stock.setForeground(new java.awt.Color(0, 0, 153));
+        stock.setEnabled(false);
+        stock.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                existencia3KeyTyped(evt);
+                stockKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                existencia3KeyPressed(evt);
+                stockKeyPressed(evt);
             }
         });
-        getContentPane().add(existencia3, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 500, 100, 30));
+        getContentPane().add(stock, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 450, 130, 30));
 
-        Agregar.setBackground(new java.awt.Color(102, 255, 255));
-        Agregar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        Agregar.setForeground(new java.awt.Color(0, 0, 153));
-        Agregar.setText("Agregar");
-        Agregar.setEnabled(false);
-        Agregar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                AgregarKeyPressed(evt);
+        agregar.setBackground(new java.awt.Color(102, 255, 255));
+        agregar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        agregar.setForeground(new java.awt.Color(0, 0, 153));
+        agregar.setText("Agregar");
+        agregar.setEnabled(false);
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
             }
         });
-        getContentPane().add(Agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 560, 130, 50));
+        agregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agregarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 580, 130, 50));
 
-        eliminar1.setBackground(new java.awt.Color(102, 255, 255));
-        eliminar1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        eliminar1.setForeground(new java.awt.Color(0, 0, 153));
-        eliminar1.setText("Eliminar");
-        eliminar1.setEnabled(false);
-        eliminar1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                eliminar1KeyPressed(evt);
+        eliminar.setBackground(new java.awt.Color(102, 255, 255));
+        eliminar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        eliminar.setForeground(new java.awt.Color(0, 0, 153));
+        eliminar.setText("Eliminar");
+        eliminar.setEnabled(false);
+        eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(eliminar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 560, 130, 50));
+        eliminar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                eliminarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 580, 130, 50));
+
+        seleccionar.setBackground(new java.awt.Color(102, 255, 255));
+        seleccionar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        seleccionar.setForeground(new java.awt.Color(0, 0, 153));
+        seleccionar.setText("Seleccionar");
+        seleccionar.setEnabled(false);
+        seleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                seleccionarActionPerformed(evt);
+            }
+        });
+        seleccionar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                seleccionarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(seleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 290, 120, 40));
+
+        existenciaLabel4.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        existenciaLabel4.setForeground(new java.awt.Color(0, 0, 153));
+        existenciaLabel4.setText("Total:");
+        getContentPane().add(existenciaLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 640, -1, -1));
+
+        total.setBackground(new java.awt.Color(102, 255, 255));
+        total.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        total.setForeground(new java.awt.Color(0, 0, 153));
+        total.setEnabled(false);
+        total.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                totalKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                totalKeyPressed(evt);
+            }
+        });
+        getContentPane().add(total, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 640, 210, 30));
+
+        existenciaLabel5.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        existenciaLabel5.setForeground(new java.awt.Color(0, 0, 153));
+        existenciaLabel5.setText("Descuento:");
+        getContentPane().add(existenciaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 640, -1, -1));
+
+        total1.setBackground(new java.awt.Color(102, 255, 255));
+        total1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        total1.setForeground(new java.awt.Color(0, 0, 153));
+        total1.setEnabled(false);
+        total1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                total1KeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                total1KeyPressed(evt);
+            }
+        });
+        getContentPane().add(total1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 640, 210, 30));
+
+        existenciaLabel6.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        existenciaLabel6.setForeground(new java.awt.Color(0, 0, 153));
+        existenciaLabel6.setText("Total sin Descuento:");
+        getContentPane().add(existenciaLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 590, -1, -1));
+
+        total2.setBackground(new java.awt.Color(102, 255, 255));
+        total2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        total2.setForeground(new java.awt.Color(0, 0, 153));
+        total2.setEnabled(false);
+        total2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                total2KeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                total2KeyPressed(evt);
+            }
+        });
+        getContentPane().add(total2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 590, 210, 30));
+
+        buscarCliente.setBackground(new java.awt.Color(102, 255, 255));
+        buscarCliente.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        buscarCliente.setForeground(new java.awt.Color(0, 0, 153));
+        buscarCliente.setText("Buscar");
+        buscarCliente.setEnabled(false);
+        buscarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarClienteActionPerformed(evt);
+            }
+        });
+        buscarCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buscarClienteKeyPressed(evt);
+            }
+        });
+        getContentPane().add(buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 120, 40));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homescreen.png"))); // NOI18N
         fondo.setText("jLabel1");
-        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1710, 690));
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1910, 690));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -402,155 +561,227 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_RegresarMouseClicked
 
     private void nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyPressed
-//        manejador.verificarAgregar(nombre, precio, existencia, agregar);
-        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
-//            precio.requestFocus();
-        }
+
     }//GEN-LAST:event_nombreKeyPressed
 
-    private void existenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existenciaKeyTyped
-        //Verificamos que en este Jtextfield solo hayan números
-        char validar=evt.getKeyChar();
-        if (Character.isLetter(validar) || validar == '.'){
-            getToolkit().beep();
-            evt.consume();
-            JOptionPane.showMessageDialog(this, "Ingresar solo números", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_existenciaKeyTyped
+    private void editarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editarKeyPressed
 
-    private void existenciaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existenciaKeyPressed
-//        manejador.verificarAgregar(nombre, precio, existencia, agregar);
-        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
-            if( agregar.isEnabled() ){
-                agregar.requestFocus();
-            } else {
-                nombre.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_existenciaKeyPressed
-
-    private void agregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarKeyPressed
-        if( evt.getKeyCode()==KeyEvent.VK_RIGHT ) {
-            modificar.requestFocus();
-        }
-    }//GEN-LAST:event_agregarKeyPressed
+    }//GEN-LAST:event_editarKeyPressed
 
     private void modificarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modificarKeyPressed
-        if( evt.getKeyCode()==KeyEvent.VK_RIGHT ) {
-            eliminar.requestFocus();
-        } else if( evt.getKeyCode()==KeyEvent.VK_LEFT ) {
-            agregar.requestFocus();
-        }
+
     }//GEN-LAST:event_modificarKeyPressed
 
-    private void eliminarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eliminarKeyPressed
-        if( evt.getKeyCode()==KeyEvent.VK_LEFT ) {
-            modificar.requestFocus();
-        }
-//        manejador.verificarAgregar(nombre, precio, existencia, agregar);
-    }//GEN-LAST:event_eliminarKeyPressed
+    private void cancelarVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cancelarVentaKeyPressed
+
+    }//GEN-LAST:event_cancelarVentaKeyPressed
 
     private void nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyTyped
         
     }//GEN-LAST:event_nombreKeyTyped
 
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        cliente = new users.Cliente();
+        cliente.setNit(nit.getText());
+        manejador.editarCliente(cliente, this);
+    }//GEN-LAST:event_editarActionPerformed
+
+    private void nitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nitKeyTyped
+        char validar=evt.getKeyChar();
+        if ( !(Character.isDigit(validar)) && validar!= '\n' && validar!= '\b' ){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Ingresar solo números", "ERROR", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_nitKeyTyped
+
+    private void nitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nitKeyPressed
+        if( evt.getKeyCode()==KeyEvent.VK_ENTER ){
+            buscarCliente.setEnabled(true);
+            buscarCliente.requestFocus();
+        
+        }
+    }//GEN-LAST:event_nitKeyPressed
+
+    private void buscarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarProductoActionPerformed
+        manejador.agregarCampos(precio, stock, nombreProducto, cantidad);
+        buscarProducto.setEnabled(false);
+        cantidad.setEnabled(true);
+        cantidad.requestFocus();
+    }//GEN-LAST:event_buscarProductoActionPerformed
+
+    private void buscarProductoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarProductoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarProductoKeyPressed
+
+    private void precioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioKeyTyped
+        
+    }//GEN-LAST:event_precioKeyTyped
+
+    private void precioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_precioKeyPressed
+
+    private void cantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyTyped
+        char validar=evt.getKeyChar();
+        if ( !(Character.isDigit(validar)) && validar!= '\n' && validar!= '\b' ){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(this, "Ingresar solo números", "ERROR", JOptionPane.ERROR_MESSAGE);
+       }
+    }//GEN-LAST:event_cantidadKeyTyped
+
+    private void cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER ){
+            if( Integer.parseInt(cantidad.getText()) > Integer.parseInt( stock.getText() )){
+                JOptionPane.showMessageDialog(this, "Estás solicitando más de las unidades disponibles", "PELIGRO", JOptionPane.WARNING_MESSAGE);
+                cantidad.setText("");
+            } else {
+                cantidad.setEnabled(false);
+                agregar.setEnabled(true);
+                agregar.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_cantidadKeyPressed
+
+    private void stockKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_stockKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stockKeyTyped
+
+    private void stockKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_stockKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stockKeyPressed
+
+    private void agregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregarKeyPressed
+
+    private void eliminarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eliminarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminarKeyPressed
+
+    private void seleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seleccionarActionPerformed
+        if( tipoCliente.getSelectedIndex() == 0 ){
+            nombreProducto.setEnabled(true);
+            nombreProducto.requestFocus();
+        } else{
+            nit.setEnabled(true);
+            nit.requestFocus();
+        }
+        seleccionar.setEnabled(false);
+        tipoCliente.setEnabled(false);
+    }//GEN-LAST:event_seleccionarActionPerformed
+
+    private void seleccionarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_seleccionarKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_seleccionarKeyPressed
+
+    private void totalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_totalKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalKeyTyped
+
+    private void totalKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_totalKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalKeyPressed
+
+    private void total1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_total1KeyTyped
+
+    private void total1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_total1KeyPressed
+
+    private void total2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_total2KeyTyped
+
+    private void total2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total2KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_total2KeyPressed
+
+    private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
+        manejador.buscarCliente(nit,nombre,buscarCliente,editar,this, nombreProducto);
+        cantidad.requestFocus();
+    }//GEN-LAST:event_buscarClienteActionPerformed
+
+    private void buscarClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarClienteKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarClienteKeyPressed
+
+    private void tipoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoClienteActionPerformed
+        seleccionar.setEnabled(true);
+        seleccionar.requestFocus();
+    }//GEN-LAST:event_tipoClienteActionPerformed
+
+    private void nombreProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreProductoActionPerformed
+        buscarProducto.setEnabled(true);
+        cantidad.setEnabled(false);
+        cantidad.setText("");
+    }//GEN-LAST:event_nombreProductoActionPerformed
+
+    private void nombreProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreProductoMouseClicked
+        
+    }//GEN-LAST:event_nombreProductoMouseClicked
+
+    private void nombreProductoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_nombreProductoItemStateChanged
+        
+    }//GEN-LAST:event_nombreProductoItemStateChanged
+
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-//        if( manejador.verificarLLenado(this, nombre, precio, existencia) ){
-//            electrodomestico.setNombre(nombre.getText());
-//            electrodomestico.setPrecio(Float.parseFloat(precio.getText()));
-//            electrodomestico.setExistencia(Integer.parseInt(existencia.getText()));
-//            manejador.addProducto(this, electrodomestico);
-//            manejador.limpiezaCampos(nombre, precio, existencia, agregar, eliminar, eliminar);
-//        }
+        manejador.agregarVenta(cantidad, this, total);
+        manejador.reiniciarCompra(stock, precio, cantidad, agregar, nombreProducto, eliminar);
     }//GEN-LAST:event_agregarActionPerformed
 
-    private void nombre1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombre1KeyTyped
-
-    private void nombre1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombre1KeyPressed
-
-    private void agregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_agregar1ActionPerformed
-
-    private void agregar1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregar1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_agregar1KeyPressed
-
-    private void existencia1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia1KeyTyped
-
-    private void existencia1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia1KeyPressed
-
-    private void existencia2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia2KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia2KeyTyped
-
-    private void existencia2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia2KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia2KeyPressed
-
-    private void existencia3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia3KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia3KeyTyped
-
-    private void existencia3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existencia3KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_existencia3KeyPressed
-
-    private void AgregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_AgregarKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AgregarKeyPressed
-
-    private void eliminar1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eliminar1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_eliminar1KeyPressed
+    private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        manejador.eliminarCompra(tabla, this, nombreProducto, eliminar, total);
+    }//GEN-LAST:event_eliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Agregar;
     private javax.swing.JLabel Regresar;
     private javax.swing.JButton agregar;
-    private javax.swing.JButton agregar1;
+    private javax.swing.JButton buscarCliente;
+    private javax.swing.JButton buscarProducto;
+    private javax.swing.JButton cancelarVenta;
+    private javax.swing.JTextField cantidad;
+    private javax.swing.JLabel cantidadLabel;
+    private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
-    private javax.swing.JButton eliminar1;
-    private javax.swing.JTextField existencia;
-    private javax.swing.JTextField existencia1;
-    private javax.swing.JTextField existencia2;
-    private javax.swing.JTextField existencia3;
-    private javax.swing.JLabel existenciaLabel;
-    private javax.swing.JLabel existenciaLabel1;
-    private javax.swing.JLabel existenciaLabel2;
-    private javax.swing.JLabel existenciaLabel3;
+    private javax.swing.JLabel existenciaLabel4;
+    private javax.swing.JLabel existenciaLabel5;
+    private javax.swing.JLabel existenciaLabel6;
     private javax.swing.JLabel fondo;
+    private javax.swing.JLabel icono;
     private javax.swing.JLabel iconoNombre;
     private javax.swing.JLabel iconoSucursal;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logOut;
     private javax.swing.JButton modificar;
+    private javax.swing.JTextField nit;
+    private javax.swing.JLabel nitLabel;
     private javax.swing.JTextField nombre;
-    private javax.swing.JTextField nombre1;
+    private javax.swing.JLabel nombreClienteLabel;
     private javax.swing.JLabel nombreEmpleado;
-    private javax.swing.JLabel nombreLabel;
-    private javax.swing.JLabel nombreLabel1;
-    private javax.swing.JLabel nombreLabel2;
+    private javax.swing.JComboBox<String> nombreProducto;
+    private javax.swing.JLabel nombreProductoLabel;
     private javax.swing.JLabel nombreTitulo;
+    private javax.swing.JTextField precio;
     private javax.swing.JLabel precioLabel;
+    private javax.swing.JButton seleccionar;
+    private javax.swing.JTextField stock;
+    private javax.swing.JLabel stockLabel;
     private javax.swing.JLabel subtitulo;
     private javax.swing.JLabel subtitulo1;
     private javax.swing.JLabel subtitulo2;
     private javax.swing.JLabel sucursalEmpleado;
     private javax.swing.JLabel sucursalTitulo;
     private javax.swing.JTable tabla;
+    private javax.swing.JComboBox<String> tipoCliente;
+    private javax.swing.JLabel tipoClienteLabel;
     private javax.swing.JLabel tituloPrincipal;
+    private javax.swing.JTextField total;
+    private javax.swing.JTextField total1;
+    private javax.swing.JTextField total2;
     // End of variables declaration//GEN-END:variables
 }

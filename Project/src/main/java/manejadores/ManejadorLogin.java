@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import postgres.models.EmpleadoDAO;
 import ui.bodega.HomePage;
 import ui.login.Login;
+import ui.venta.Venta;
 import users.Empleado;
 
 /**
@@ -35,9 +36,12 @@ public class ManejadorLogin {
                 JOptionPane.showMessageDialog( ventana, "Sesión Iniciada Correctamente", "ÉXITO", JOptionPane.INFORMATION_MESSAGE);
                 ventana.setVisible( false );
                 
-                if( empleado.getId_sucursal() == 4 ){
+                if( empleado.getRol()== 3 ){
                     HomePage bodega = new HomePage( empleado );
                     bodega.setVisible(true);
+                } else if ( empleado.getRol()== 1 ){
+                    Venta venta = new Venta(empleado);
+                    venta.setVisible( true );
                 }
                 
             } else{

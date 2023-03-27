@@ -89,5 +89,4 @@ INSERT INTO ControlSucursal.Sucursal ( nombre ) VALUES
     !QUERYS para el administrador
 */
 
-DELETE FROM ControlSucursal.Electrodomestico WHERE id_electrodomestico = ?;
-DELETE FROM ControlSucursal.Inventario WHERE id_inventario = ?;
+SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia, i.id_inventario AS inventario FROM ControlSucursal.Inventario AS i INNER JOIN ControlSucursal.Electrodomestico AS e ON i.id_electrodomestico = e.id_electrodomestico WHERE i.id_sucursal = ? AND i.estado = 1 ORDER BY e.id_electrodomestico ASC;";

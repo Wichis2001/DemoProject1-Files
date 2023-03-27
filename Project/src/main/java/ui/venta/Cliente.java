@@ -4,17 +4,38 @@
  */
 package ui.venta;
 
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import manejadores.ManejadorCliente;
+
 /**
  *
  * @author luis
  */
 public class Cliente extends javax.swing.JFrame {
-
+    
+    private Venta venta;
+    private users.Cliente cliente;
+    private boolean edicion;
+    private ManejadorCliente manejador = new ManejadorCliente();
     /**
      * Creates new form Cliente
      */
-    public Cliente() {
+    public Cliente( Venta venta, boolean edicion, users.Cliente cliente) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        nit.setText( cliente.getNit() );
+        nombre.requestFocus();
+        this.venta = venta;
+        this.edicion = edicion;
+        this.cliente = cliente;
+        if( edicion ){
+            editar.setEnabled(true);
+            nombre.setText(cliente.getNombre());
+            direccion.setText(cliente.getDireccion());
+        } else{
+            agregar.setEnabled(true);
+        }
     }
 
     /**
@@ -26,57 +47,246 @@ public class Cliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        tituloPrincipal = new javax.swing.JLabel();
+        subtitulo1 = new javax.swing.JLabel();
+        icono = new javax.swing.JLabel();
+        nitLabel = new javax.swing.JLabel();
+        nombreLabel = new javax.swing.JLabel();
+        nombre = new javax.swing.JTextField();
+        nit = new javax.swing.JTextField();
+        direccionLabel = new javax.swing.JLabel();
+        direccion = new javax.swing.JTextField();
+        agregar = new javax.swing.JButton();
+        editar = new javax.swing.JButton();
+        regresarLabel = new javax.swing.JLabel();
+        regresar = new javax.swing.JLabel();
+        fondo = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tituloPrincipal.setFont(new java.awt.Font("Courier 10 Pitch", 1, 48)); // NOI18N
+        tituloPrincipal.setForeground(new java.awt.Color(0, 0, 153));
+        tituloPrincipal.setText("PANTALLA DE CLIENTES");
+        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 610, 70));
+
+        subtitulo1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 36)); // NOI18N
+        subtitulo1.setForeground(new java.awt.Color(0, 0, 153));
+        subtitulo1.setText("Agrega/Edita un Cliente");
+        getContentPane().add(subtitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, -1, -1));
+
+        icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pngwing.com (10) (1).png"))); // NOI18N
+        getContentPane().add(icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, -1, -1));
+
+        nitLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        nitLabel.setForeground(new java.awt.Color(0, 0, 153));
+        nitLabel.setText("NIT Cliente:");
+        getContentPane().add(nitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, -1, -1));
+
+        nombreLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        nombreLabel.setForeground(new java.awt.Color(0, 0, 153));
+        nombreLabel.setText("Nombre Cliente:");
+        getContentPane().add(nombreLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 210, -1, -1));
+
+        nombre.setBackground(new java.awt.Color(102, 255, 255));
+        nombre.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        nombre.setForeground(new java.awt.Color(0, 0, 153));
+        nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombreKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nombreKeyPressed(evt);
+            }
+        });
+        getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 210, 230, 30));
+
+        nit.setBackground(new java.awt.Color(102, 255, 255));
+        nit.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        nit.setForeground(new java.awt.Color(0, 0, 153));
+        nit.setEnabled(false);
+        nit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nitKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                nitKeyPressed(evt);
+            }
+        });
+        getContentPane().add(nit, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 170, 230, 30));
+
+        direccionLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        direccionLabel.setForeground(new java.awt.Color(0, 0, 153));
+        direccionLabel.setText("Direccion Cliente:");
+        getContentPane().add(direccionLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, -1, 20));
+
+        direccion.setBackground(new java.awt.Color(102, 255, 255));
+        direccion.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        direccion.setForeground(new java.awt.Color(0, 0, 153));
+        direccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                direccionKeyTyped(evt);
+            }
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                direccionKeyPressed(evt);
+            }
+        });
+        getContentPane().add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 250, 230, 30));
+
+        agregar.setBackground(new java.awt.Color(102, 255, 255));
+        agregar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        agregar.setForeground(new java.awt.Color(0, 0, 153));
+        agregar.setText("Agregar");
+        agregar.setEnabled(false);
+        agregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarActionPerformed(evt);
+            }
+        });
+        agregar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                agregarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(agregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, 130, 50));
+
+        editar.setBackground(new java.awt.Color(102, 255, 255));
+        editar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        editar.setForeground(new java.awt.Color(0, 0, 153));
+        editar.setText("Editar");
+        editar.setEnabled(false);
+        editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarActionPerformed(evt);
+            }
+        });
+        editar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                editarKeyPressed(evt);
+            }
+        });
+        getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 300, 130, 50));
+
+        regresarLabel.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        regresarLabel.setForeground(new java.awt.Color(0, 0, 0));
+        regresarLabel.setText("REGRESAR");
+        getContentPane().add(regresarLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, -1, -1));
+
+        regresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/regresar.png"))); // NOI18N
+        regresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regresarMouseClicked(evt);
+            }
+        });
+        getContentPane().add(regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 310, -1, -1));
+
+        fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homescreen.png"))); // NOI18N
+        fondo.setText("jLabel1");
+        getContentPane().add(fondo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 750, 410));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyTyped
+      
+    }//GEN-LAST:event_nombreKeyTyped
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Cliente().setVisible(true);
+    private void nombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombreKeyPressed
+        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
+            direccion.requestFocus();
+        }
+    }//GEN-LAST:event_nombreKeyPressed
+
+    private void nitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nitKeyTyped
+
+    }//GEN-LAST:event_nitKeyTyped
+
+    private void nitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nitKeyPressed
+
+        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
+            nombre.requestFocus();
+        }
+    }//GEN-LAST:event_nitKeyPressed
+
+    private void direccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccionKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_direccionKeyTyped
+
+    private void direccionKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_direccionKeyPressed
+        //manejador.verificarAgregar(nit, nombre, existencia, eliminar);
+        if( evt.getKeyCode()==KeyEvent.VK_ENTER ) {
+            if( agregar.isEnabled() ){
+                agregar.requestFocus();
+            } else{
+                editar.requestFocus();
             }
-        });
-    }
+        }
+    }//GEN-LAST:event_direccionKeyPressed
+
+    private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
+        if( nombre.getText().isEmpty() || direccion.getText().isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Aún hay campos vacios", "PELIGRO", JOptionPane.WARNING_MESSAGE);
+            nombre.requestFocus();
+        } else {
+            manejador.crearCliente(nit, direccion, nombre, venta, this);
+        }
+    }//GEN-LAST:event_agregarActionPerformed
+
+    private void agregarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_agregarKeyPressed
+        if( evt.getKeyCode()==KeyEvent.VK_RIGHT ) {
+            editar.requestFocus();
+        }
+    }//GEN-LAST:event_agregarKeyPressed
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        if( nombre.getText().isEmpty() || direccion.getText().isEmpty() ) {
+            JOptionPane.showMessageDialog(null, "Aún hay campos vacios", "PELIGRO", JOptionPane.WARNING_MESSAGE);
+            nombre.requestFocus();
+        } else {
+            manejador.actualizarCliente(nit, direccion, nombre, venta, this);
+        }
+    }//GEN-LAST:event_editarActionPerformed
+
+    private void editarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_editarKeyPressed
+        if( evt.getKeyCode()==KeyEvent.VK_LEFT ) {
+            agregar.requestFocus();
+        }
+    }//GEN-LAST:event_editarKeyPressed
+
+    private void regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regresarMouseClicked
+        //Regresamos al menú de ventas
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar a la Pestaña Anterior?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (response==JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(this, "Regresando...");
+            //Cerramos esta ventana y procedemos a mostrar el menu manejadores
+            if( edicion ){
+                venta.getNombreProducto().requestFocus();
+            } else{
+                venta.getNit().setEnabled(true);
+                venta.getNit().requestFocus();
+            }
+            venta.setVisible(true);
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_regresarMouseClicked
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton agregar;
+    private javax.swing.JTextField direccion;
+    private javax.swing.JLabel direccionLabel;
+    private javax.swing.JButton editar;
+    private javax.swing.JLabel fondo;
+    private javax.swing.JLabel icono;
+    private javax.swing.JTextField nit;
+    private javax.swing.JLabel nitLabel;
+    private javax.swing.JTextField nombre;
+    private javax.swing.JLabel nombreLabel;
+    private javax.swing.JLabel regresar;
+    private javax.swing.JLabel regresarLabel;
+    private javax.swing.JLabel subtitulo1;
+    private javax.swing.JLabel tituloPrincipal;
     // End of variables declaration//GEN-END:variables
 }

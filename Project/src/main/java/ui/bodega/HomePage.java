@@ -297,7 +297,7 @@ public class HomePage extends javax.swing.JFrame {
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
         //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
             JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
             //Cerramos esta ventana y procedemos a mostrar el menu manejadores
@@ -324,7 +324,7 @@ public class HomePage extends javax.swing.JFrame {
     private void precioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precioKeyTyped
         //Verificamos que en este Jtextfield solo hayan números
         char validar=evt.getKeyChar();
-        if (Character.isLetter(validar)){
+        if ( validar != '.' && !(Character.isDigit(validar)) && validar!= '\n' && validar!= '\b' ){
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(this, "Ingresar solo números", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -334,7 +334,7 @@ public class HomePage extends javax.swing.JFrame {
     private void existenciaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_existenciaKeyTyped
         //Verificamos que en este Jtextfield solo hayan números
         char validar=evt.getKeyChar();
-        if (Character.isLetter(validar) || validar == '.'){
+        if (!(Character.isDigit(validar)) && validar!= '\n' && validar!= '\b'){
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(this, "Ingresar solo números", "ERROR", JOptionPane.ERROR_MESSAGE);
