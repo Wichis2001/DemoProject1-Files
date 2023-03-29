@@ -48,6 +48,3 @@ INSERT INTO ControlUsuarios.Empleado VALUES
                 ('vinicio03', crypt('3738', gen_salt('bf')), 3, 4),
                 ('vinicio04', crypt('3940', gen_salt('bf')), 3, 4),
                 ('admin01', crypt('4142', gen_salt('bf')), 4, 5);
-
-
-SELECT * FROM ControlSucursal.Electrodomestico WHERE nombre = '' LIMIT 1;
