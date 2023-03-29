@@ -2,6 +2,7 @@
     !Clientes generales del sistema
 */
 INSERT INTO ControlUsuarios.Cliente VALUES
+                ('C/F'),
                 ('41189121','Kyle Mcneil','Tehuacan'),
                 ('73463658','Mia Navarro','Acapulco'),
                 ('72700249','Lance Wong','Tehuacan'),
@@ -49,4 +50,4 @@ INSERT INTO ControlUsuarios.Empleado VALUES
                 ('admin01', crypt('4142', gen_salt('bf')), 4, 5);
 
 
-
+SELECT * FROM ControlSucursal.Electrodomestico WHERE nombre = '' LIMIT 1;

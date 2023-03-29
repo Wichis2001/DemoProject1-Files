@@ -110,7 +110,7 @@ public class Venta extends javax.swing.JFrame {
         nombre = new javax.swing.JTextField();
         cancelarVenta = new javax.swing.JButton();
         editar = new javax.swing.JButton();
-        modificar = new javax.swing.JButton();
+        generarVenta = new javax.swing.JButton();
         icono = new javax.swing.JLabel();
         nombreProducto = new javax.swing.JComboBox<>();
         tipoClienteLabel = new javax.swing.JLabel();
@@ -131,10 +131,11 @@ public class Venta extends javax.swing.JFrame {
         existenciaLabel4 = new javax.swing.JLabel();
         total = new javax.swing.JTextField();
         existenciaLabel5 = new javax.swing.JLabel();
-        total1 = new javax.swing.JTextField();
+        descuento = new javax.swing.JTextField();
         existenciaLabel6 = new javax.swing.JLabel();
-        total2 = new javax.swing.JTextField();
+        totalSinDescuento = new javax.swing.JTextField();
         buscarCliente = new javax.swing.JButton();
+        descuentoLabel = new javax.swing.JLabel();
         fondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -241,7 +242,11 @@ public class Venta extends javax.swing.JFrame {
         cancelarVenta.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
         cancelarVenta.setForeground(new java.awt.Color(0, 0, 153));
         cancelarVenta.setText("Cancelar Venta");
-        cancelarVenta.setEnabled(false);
+        cancelarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarVentaActionPerformed(evt);
+            }
+        });
         cancelarVenta.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 cancelarVentaKeyPressed(evt);
@@ -266,17 +271,22 @@ public class Venta extends javax.swing.JFrame {
         });
         getContentPane().add(editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 40));
 
-        modificar.setBackground(new java.awt.Color(102, 255, 255));
-        modificar.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
-        modificar.setForeground(new java.awt.Color(0, 0, 153));
-        modificar.setText("Generar Venta");
-        modificar.setEnabled(false);
-        modificar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                modificarKeyPressed(evt);
+        generarVenta.setBackground(new java.awt.Color(102, 255, 255));
+        generarVenta.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        generarVenta.setForeground(new java.awt.Color(0, 0, 153));
+        generarVenta.setText("Generar Venta");
+        generarVenta.setEnabled(false);
+        generarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarVentaActionPerformed(evt);
             }
         });
-        getContentPane().add(modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 590, 190, 50));
+        generarVenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                generarVentaKeyPressed(evt);
+            }
+        });
+        getContentPane().add(generarVenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 590, 190, 50));
 
         icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pngwing.com (8) (1).png"))); // NOI18N
         getContentPane().add(icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 120, -1, -1));
@@ -311,6 +321,11 @@ public class Venta extends javax.swing.JFrame {
         nit.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
         nit.setForeground(new java.awt.Color(0, 0, 153));
         nit.setEnabled(false);
+        nit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nitActionPerformed(evt);
+            }
+        });
         nit.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 nitKeyTyped(evt);
@@ -486,43 +501,43 @@ public class Venta extends javax.swing.JFrame {
         });
         getContentPane().add(total, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 640, 210, 30));
 
-        existenciaLabel5.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        existenciaLabel5.setFont(new java.awt.Font("Courier 10 Pitch", 1, 24)); // NOI18N
         existenciaLabel5.setForeground(new java.awt.Color(0, 0, 153));
-        existenciaLabel5.setText("Descuento:");
-        getContentPane().add(existenciaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 640, -1, -1));
+        existenciaLabel5.setText("%");
+        getContentPane().add(existenciaLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 640, -1, -1));
 
-        total1.setBackground(new java.awt.Color(102, 255, 255));
-        total1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        total1.setForeground(new java.awt.Color(0, 0, 153));
-        total1.setEnabled(false);
-        total1.addKeyListener(new java.awt.event.KeyAdapter() {
+        descuento.setBackground(new java.awt.Color(102, 255, 255));
+        descuento.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        descuento.setForeground(new java.awt.Color(0, 0, 153));
+        descuento.setEnabled(false);
+        descuento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                total1KeyTyped(evt);
+                descuentoKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                total1KeyPressed(evt);
+                descuentoKeyPressed(evt);
             }
         });
-        getContentPane().add(total1, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 640, 210, 30));
+        getContentPane().add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 640, 190, 30));
 
         existenciaLabel6.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
         existenciaLabel6.setForeground(new java.awt.Color(0, 0, 153));
         existenciaLabel6.setText("Total sin Descuento:");
         getContentPane().add(existenciaLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 590, -1, -1));
 
-        total2.setBackground(new java.awt.Color(102, 255, 255));
-        total2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
-        total2.setForeground(new java.awt.Color(0, 0, 153));
-        total2.setEnabled(false);
-        total2.addKeyListener(new java.awt.event.KeyAdapter() {
+        totalSinDescuento.setBackground(new java.awt.Color(102, 255, 255));
+        totalSinDescuento.setFont(new java.awt.Font("Courier 10 Pitch", 0, 15)); // NOI18N
+        totalSinDescuento.setForeground(new java.awt.Color(0, 0, 153));
+        totalSinDescuento.setEnabled(false);
+        totalSinDescuento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                total2KeyTyped(evt);
+                totalSinDescuentoKeyTyped(evt);
             }
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                total2KeyPressed(evt);
+                totalSinDescuentoKeyPressed(evt);
             }
         });
-        getContentPane().add(total2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 590, 210, 30));
+        getContentPane().add(totalSinDescuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 590, 210, 30));
 
         buscarCliente.setBackground(new java.awt.Color(102, 255, 255));
         buscarCliente.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
@@ -540,6 +555,11 @@ public class Venta extends javax.swing.JFrame {
             }
         });
         getContentPane().add(buscarCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 120, 40));
+
+        descuentoLabel.setFont(new java.awt.Font("Courier 10 Pitch", 1, 15)); // NOI18N
+        descuentoLabel.setForeground(new java.awt.Color(0, 0, 153));
+        descuentoLabel.setText("Descuento:");
+        getContentPane().add(descuentoLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 640, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homescreen.png"))); // NOI18N
         fondo.setText("jLabel1");
@@ -568,9 +588,9 @@ public class Venta extends javax.swing.JFrame {
 
     }//GEN-LAST:event_editarKeyPressed
 
-    private void modificarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modificarKeyPressed
+    private void generarVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_generarVentaKeyPressed
 
-    }//GEN-LAST:event_modificarKeyPressed
+    }//GEN-LAST:event_generarVentaKeyPressed
 
     private void cancelarVentaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cancelarVentaKeyPressed
 
@@ -597,8 +617,13 @@ public class Venta extends javax.swing.JFrame {
 
     private void nitKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nitKeyPressed
         if( evt.getKeyCode()==KeyEvent.VK_ENTER ){
-            buscarCliente.setEnabled(true);
-            buscarCliente.requestFocus();
+            if( !nit.getText().isEmpty() ){
+                buscarCliente.setEnabled(true);
+                buscarCliente.requestFocus();
+            } else{
+                JOptionPane.showMessageDialog(this, "NO HAY DATOS", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            
         
         }
     }//GEN-LAST:event_nitKeyPressed
@@ -633,14 +658,20 @@ public class Venta extends javax.swing.JFrame {
 
     private void cantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cantidadKeyPressed
         if(evt.getKeyCode()==KeyEvent.VK_ENTER ){
-            if( Integer.parseInt(cantidad.getText()) > Integer.parseInt( stock.getText() )){
-                JOptionPane.showMessageDialog(this, "Estás solicitando más de las unidades disponibles", "PELIGRO", JOptionPane.WARNING_MESSAGE);
+            if( !cantidad.getText().isEmpty() ){
+                if( (Integer.parseInt(cantidad.getText()) > Integer.parseInt( stock.getText() ) ) || (Integer.parseInt(cantidad.getText())) == 0 ){
+                JOptionPane.showMessageDialog(this, "Dato ingresado invalido", "PELIGRO", JOptionPane.WARNING_MESSAGE);
                 cantidad.setText("");
-            } else {
-                cantidad.setEnabled(false);
-                agregar.setEnabled(true);
-                agregar.requestFocus();
+                } else {
+                    cantidad.setEnabled(false);
+                    agregar.setEnabled(true);
+                    agregar.requestFocus();
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "NO HAY DATOS", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+                
+            
         }
     }//GEN-LAST:event_cantidadKeyPressed
 
@@ -664,6 +695,7 @@ public class Venta extends javax.swing.JFrame {
         if( tipoCliente.getSelectedIndex() == 0 ){
             nombreProducto.setEnabled(true);
             nombreProducto.requestFocus();
+            descuento.setText("No aplica");
         } else{
             nit.setEnabled(true);
             nit.requestFocus();
@@ -684,24 +716,24 @@ public class Venta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_totalKeyPressed
 
-    private void total1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total1KeyTyped
+    private void descuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descuentoKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_total1KeyTyped
+    }//GEN-LAST:event_descuentoKeyTyped
 
-    private void total1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total1KeyPressed
+    private void descuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descuentoKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_total1KeyPressed
+    }//GEN-LAST:event_descuentoKeyPressed
 
-    private void total2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total2KeyTyped
+    private void totalSinDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_totalSinDescuentoKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_total2KeyTyped
+    }//GEN-LAST:event_totalSinDescuentoKeyTyped
 
-    private void total2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_total2KeyPressed
+    private void totalSinDescuentoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_totalSinDescuentoKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_total2KeyPressed
+    }//GEN-LAST:event_totalSinDescuentoKeyPressed
 
     private void buscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarClienteActionPerformed
-        manejador.buscarCliente(nit,nombre,buscarCliente,editar,this, nombreProducto);
+        manejador.buscarCliente(nit,nombre,buscarCliente,editar,this, nombreProducto, descuento);
         cantidad.requestFocus();
     }//GEN-LAST:event_buscarClienteActionPerformed
 
@@ -718,6 +750,7 @@ public class Venta extends javax.swing.JFrame {
         buscarProducto.setEnabled(true);
         cantidad.setEnabled(false);
         cantidad.setText("");
+        buscarProducto.requestFocus();
     }//GEN-LAST:event_nombreProductoActionPerformed
 
     private void nombreProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nombreProductoMouseClicked
@@ -729,15 +762,35 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreProductoItemStateChanged
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-        manejador.agregarVenta(cantidad, this, total);
+        manejador.agregarVenta(cantidad, this, total, totalSinDescuento, descuento, stock);
         manejador.reiniciarCompra(stock, precio, cantidad, agregar, nombreProducto, eliminar);
+        generarVenta.setEnabled(true);
     }//GEN-LAST:event_agregarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        manejador.eliminarCompra(tabla, this, nombreProducto, eliminar, total);
+        manejador.eliminarCompra(tabla, this, nombreProducto, eliminar, total, totalSinDescuento, descuento);
     }//GEN-LAST:event_eliminarActionPerformed
 
+    private void cancelarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarVentaActionPerformed
+        int response = JOptionPane.showConfirmDialog(null,"¿Estás seguro de cancelar la venta?", "CANCELAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (response==JOptionPane.YES_OPTION){
+            manejador.reiniciarCampos(this, empleado);
+        }        
+    }//GEN-LAST:event_cancelarVentaActionPerformed
 
+    private void generarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarVentaActionPerformed
+        int response = JOptionPane.showConfirmDialog(null,"¿Ya quieres generar la venta?", "VENTA",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (response==JOptionPane.YES_OPTION){
+            manejador.realizarVenta(empleado, generarVenta, tipoCliente, this);
+        }
+    }//GEN-LAST:event_generarVentaActionPerformed
+
+    private void nitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nitActionPerformed
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Regresar;
     private javax.swing.JButton agregar;
@@ -746,18 +799,20 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JButton cancelarVenta;
     private javax.swing.JTextField cantidad;
     private javax.swing.JLabel cantidadLabel;
+    private javax.swing.JTextField descuento;
+    private javax.swing.JLabel descuentoLabel;
     private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
     private javax.swing.JLabel existenciaLabel4;
     private javax.swing.JLabel existenciaLabel5;
     private javax.swing.JLabel existenciaLabel6;
     private javax.swing.JLabel fondo;
+    private javax.swing.JButton generarVenta;
     private javax.swing.JLabel icono;
     private javax.swing.JLabel iconoNombre;
     private javax.swing.JLabel iconoSucursal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logOut;
-    private javax.swing.JButton modificar;
     private javax.swing.JTextField nit;
     private javax.swing.JLabel nitLabel;
     private javax.swing.JTextField nombre;
@@ -781,7 +836,6 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JLabel tipoClienteLabel;
     private javax.swing.JLabel tituloPrincipal;
     private javax.swing.JTextField total;
-    private javax.swing.JTextField total1;
-    private javax.swing.JTextField total2;
+    private javax.swing.JTextField totalSinDescuento;
     // End of variables declaration//GEN-END:variables
 }

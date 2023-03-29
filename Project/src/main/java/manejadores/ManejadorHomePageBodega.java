@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.BodegaDAO;
 import ui.bodega.HomePage;
+import users.Empleado;
 
 /**
  *
@@ -163,7 +164,7 @@ public class ManejadorHomePageBodega {
         nombre.requestFocus();
     }
     
-    public void editarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana ){
+    public void editarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana, Empleado empleado ){
          if( verificarLLenado(ventana, nombre, precio, existencia) ){
              Electrodomestico electrodomestico = new Electrodomestico();
              electrodomestico.setIdElectrodomestico(idElectrodomestico);
@@ -171,7 +172,7 @@ public class ManejadorHomePageBodega {
              electrodomestico.setNombre(nombre.getText());
              electrodomestico.setPrecio(Float.parseFloat(precio.getText()));
              if( bodegaDao.updateElectrodomestico(electrodomestico) ){
-                 if( bodegaDao.updateInventario(electrodomestico) ){
+                 if( bodegaDao.updateInventario(electrodomestico, empleado.getId_sucursal() ) ){
                      JOptionPane.showMessageDialog(null, "El producto fue actualizado en bodega correctamente", "Actualización", JOptionPane.INFORMATION_MESSAGE);
                      llenarTabla(ventana);
                  } else {
@@ -184,7 +185,7 @@ public class ManejadorHomePageBodega {
          }
     }
     
-    public void eliminarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana ){
+    public void eliminarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana, Empleado empleado ){
         int response = JOptionPane.showConfirmDialog(ventana,"¿Estas Seguro de eliminar este Registro?", "ELIMINAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
             if( verificarLLenado(ventana, nombre, precio, existencia) ){
@@ -193,7 +194,7 @@ public class ManejadorHomePageBodega {
              electrodomestico.setExistencia(Integer.parseInt(existencia.getText()));
              electrodomestico.setNombre(nombre.getText());
              electrodomestico.setPrecio(Float.parseFloat(precio.getText()));
-             if( bodegaDao.deleteInventario(electrodomestico) ){
+             if( bodegaDao.deleteInventario(electrodomestico, empleado.getId_sucursal()) ){
                 JOptionPane.showMessageDialog(null, "El producto fue eliminado de bodega correctamente", "ELIMINACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 llenarTabla(ventana);
              } else {

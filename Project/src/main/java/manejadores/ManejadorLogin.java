@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import postgres.models.EmpleadoDAO;
 import ui.bodega.HomePage;
+import ui.inventario.InventarioHome;
 import ui.login.Login;
 import ui.venta.Venta;
 import users.Empleado;
@@ -42,6 +43,9 @@ public class ManejadorLogin {
                 } else if ( empleado.getRol()== 1 ){
                     Venta venta = new Venta(empleado);
                     venta.setVisible( true );
+                } else if( empleado.getRol()==2){
+                    InventarioHome inventario = new InventarioHome(empleado);
+                    inventario.setVisible(true);
                 }
                 
             } else{

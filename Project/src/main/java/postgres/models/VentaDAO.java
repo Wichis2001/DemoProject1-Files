@@ -9,7 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import postgres.Conexion;
+import postgres.Insert;
 import postgres.Querys;
+import postgres.Update;
+import ventas.Factura;
 
 /**
  *
@@ -37,5 +40,95 @@ public class VentaDAO {
             System.err.println("Error al generar el listado de electrodmesticos: " + e.getMessage() );
         }
         return listadoElectrodomesticos;
+    }
+    
+    public int determinarDescuento( String nit ){
+        int descuento = 0;
+        float total = 0;
+        try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryDescuento)){
+            
+            preSt.setString(1, nit);
+    
+            ResultSet result = preSt.executeQuery();
+            while( result.next() ){
+                total = result.getFloat("total");
+            }
+            
+            if( total >= 1000 && total < 5000 ){
+                descuento = 2;              
+            } else if( total >= 5000 && total < 10000 ){
+                descuento = 5;
+            } else if( total >= 10000 ){
+                descuento = 10;               
+            }
+                  
+        } catch( Exception e ){
+            System.err.println("Error al determinar el descuento del cliente " + e.getMessage() );
+        }
+        
+        return descuento;
+    }
+    
+    private int totalVentas(){
+        int total = 0;
+        try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryTotalVentas)){
+    
+            ResultSet result = preSt.executeQuery();
+            
+            while( result.next() ){
+                total = result.getInt("count");
+            }
+                  
+        } catch( Exception e ){
+            System.err.println("Error al determinar el total de ventas " + e.getMessage() );
+        }
+        
+        return total;
+    }
+    
+    public boolean addVenta( float total, String nit, String username ){
+        try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertVenta)){
+            preSt.setFloat(1, (float)(Math.round(total*100.0)/100.0));
+            preSt.setString(2, nit);
+            preSt.setString(3, username);
+            preSt.executeUpdate();
+            
+        return true; 
+        } catch( Exception e ){
+            System.err.println("Ocurrio un error al insertar la venta " + e.getMessage() );
+            
+            return false;
+        }
+    }
+    
+    public boolean addDetalleVenta( Factura factura ){
+        try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertDetalleVenta)){
+            preSt.setFloat(1, (float)(Math.round(factura.getSubTotal()*100.0)/100.0));
+            preSt.setInt(2, factura.getCantidad());
+            preSt.setInt(3, this.totalVentas());
+            preSt.setInt(4, factura.getIdInventario());
+            preSt.executeUpdate();
+            
+        return true; 
+        } catch( Exception e ){
+            System.err.println("Ocurrio un error al insertar la venta " + e.getMessage() );
+            
+            return false;
+        }
+    }
+    
+    public boolean actualizarStock( Factura factura ){
+        System.out.println( factura.getStock() + " " + factura.getCantidad() );
+        int existenciaActualizada = factura.getStock() - factura.getCantidad();
+        try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Update.updateStock) ){
+            preSt.setInt(1, existenciaActualizada);
+            preSt.setInt(2, factura.getIdInventario());
+            
+            preSt.executeUpdate();
+            return true;
+        } catch( Exception e ){
+            System.err.println( "Error al actualizar el pedido");
+            return false;
+        }
     }
 }

@@ -89,4 +89,4 @@ INSERT INTO ControlSucursal.Sucursal ( nombre ) VALUES
     !QUERYS para el administrador
 */
 
-SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia, i.id_inventario AS inventario FROM ControlSucursal.Inventario AS i INNER JOIN ControlSucursal.Electrodomestico AS e ON i.id_electrodomestico = e.id_electrodomestico WHERE i.id_sucursal = ? AND i.estado = 1 ORDER BY e.id_electrodomestico ASC;";
+SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia FROM ControlSucursal.Electrodomestico AS e INNER JOIN ControlSucursal.Inventario AS i ON e.id_electrodomestico = i.id_electrodomestico WHERE i.id_sucursal = 4 AND i.estado = 1 AND i.existencia > 0 ORDER BY e.id_electrodomestico ASC;

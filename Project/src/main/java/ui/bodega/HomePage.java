@@ -400,11 +400,11 @@ public class HomePage extends javax.swing.JFrame {
     }//GEN-LAST:event_editarActionPerformed
 
     private void modificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarActionPerformed
-        manejador.editarBodega(nombre, precio, existencia, agregar, modificar, eliminar, this);
+        manejador.editarBodega(nombre, precio, existencia, agregar, modificar, eliminar, this, empleado);
     }//GEN-LAST:event_modificarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        manejador.eliminarBodega(nombre, precio, existencia, agregar, modificar, eliminar, this);
+        manejador.eliminarBodega(nombre, precio, existencia, agregar, modificar, eliminar, this, empleado);
     }//GEN-LAST:event_eliminarActionPerformed
 
 

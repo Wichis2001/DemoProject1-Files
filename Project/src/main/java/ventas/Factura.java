@@ -17,17 +17,27 @@ public class Factura {
     private int cantidad;
     private float subTotal;
     private int idInventario;
+    private int stock;
 
     public Factura() {
     }
 
-    public Factura(int identificador, String descripcion, float precio, int cantidad, float subTotal, int idInventario) {
+    public Factura(int identificador, String descripcion, float precio, int cantidad, float subTotal, int idInventario, int stock) {
         this.identificador = identificador;
         this.descripcion = descripcion;
         this.precio = precio;
         this.cantidad = cantidad;
         this.subTotal = subTotal;
         this.idInventario = idInventario;
+        this.stock = stock;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     

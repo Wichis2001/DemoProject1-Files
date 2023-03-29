@@ -13,7 +13,13 @@ public class Querys {
     public static final String queryUsuarios="SELECT * FROM ControlUsuarios.Empleado WHERE username = ? AND contrasenia = crypt( ? , contrasenia);";
     public static final String queryElectrodomesticos = "SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia FROM ControlSucursal.Electrodomestico AS e INNER JOIN ControlSucursal.Inventario AS i ON e.id_electrodomestico = i.id_electrodomestico WHERE i.id_sucursal = 4 AND i.estado = 1 ORDER BY e.id_electrodomestico ASC;";
     public static final String queryUltimoProducto = "SELECT MAX(id_electrodomestico) AS maximo FROM ControlSucursal.Electrodomestico;";
-    public static final String queryBusquedaIDInventario = "SELECT id_inventario AS id FROM ControlSucursal.Inventario WHERE id_electrodomestico = ?;";
+    public static final String queryBusquedaIDInventario = "SELECT id_inventario AS id FROM ControlSucursal.Inventario WHERE id_electrodomestico = ? AND id_sucursal = ?;";
     public static final String queryBuscarCliente = "SELECT * FROM ControlUsuarios.Cliente WHERE nit = ?;";
     public static final String queryCargarProductoVenta = "SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia, i.id_inventario AS inventario FROM ControlSucursal.Inventario AS i INNER JOIN ControlSucursal.Electrodomestico AS e ON i.id_electrodomestico = e.id_electrodomestico WHERE i.id_sucursal = ? AND i.estado = 1 AND i.existencia > 0 ORDER BY e.id_electrodomestico ASC;";
+    public static final String queryDescuento = "SELECT total FROM ControlVentas.Venta WHERE nit = ? ORDER BY id_venta DESC LIMIT 1;";
+    public static final String queryTotalVentas = "SELECT COUNT(*) FROM ControlVentas.Venta;";
+    public static final String queryElectrodomesticosInventario = "SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia FROM ControlSucursal.Electrodomestico AS e INNER JOIN ControlSucursal.Inventario AS i ON e.id_electrodomestico = i.id_electrodomestico WHERE i.id_sucursal = ? AND i.estado = 1 ORDER BY e.id_electrodomestico ASC;";
+    public static final String queryIdElectrodoemestico = "SELECT * FROM ControlSucursal.Electrodomestico WHERE nombre = ? LIMIT 1;";
+    public static final String queryBusquedaIDInventarioOrigen = "SELECT id_inventario AS id, existencia FROM ControlSucursal.Inventario WHERE id_electrodomestico = ? AND id_sucursal = ?;";
+    public static final String queryElectrodomesticoSolicitados = "SELECT e.id_electrodomestico AS id, e.nombre AS nombre, e.precio AS precio, i.existencia AS existencia FROM ControlSucursal.Electrodomestico AS e INNER JOIN ControlSucursal.Inventario AS i ON e.id_electrodomestico = i.id_electrodomestico WHERE i.id_sucursal = ? AND i.estado = 1 AND i.existencia > 0 ORDER BY e.id_electrodomestico ASC;";
 }

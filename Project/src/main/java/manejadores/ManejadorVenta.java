@@ -27,9 +27,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.ClienteDAO;
 import postgres.models.VentaDAO;
-import ui.bodega.HomePage;
 import ui.venta.Venta;
 import users.Cliente;
+import users.Empleado;
 import ventas.Factura;
 
 /**
@@ -46,8 +46,6 @@ public class ManejadorVenta {
     private DefaultTableCellRenderer alinear = new DefaultTableCellRenderer();
     private DefaultTableModel modelo = new DefaultTableModel();
     private DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
-    private String totalSinDescuento;
-    private String descuento;
     private float total;
     private ArrayList<Factura> facturas = new ArrayList<>();
     private int indice;
@@ -112,7 +110,7 @@ public class ManejadorVenta {
         tabla.setModel(modelo);
     }
     
-    public void buscarCliente( JTextField nit, JTextField nombre, JButton buscar, JButton editar, Venta venta, JComboBox nombreProducto){
+    public void buscarCliente( JTextField nit, JTextField nombre, JButton buscar, JButton editar, Venta venta, JComboBox nombreProducto, JTextField descuento){
         if(nit.getText().length() != 8 ){
             JOptionPane.showMessageDialog(null, "El nit ingresado no es válido", "ATENCIÓN", JOptionPane.WARNING_MESSAGE);
             nit.requestFocus();
@@ -129,6 +127,11 @@ public class ManejadorVenta {
                 nombre.setText(cliente.getNombre());
                 nombreProducto.setEnabled(true);
                 nombreProducto.requestFocus(true);
+                if( daoV.determinarDescuento( cliente.getNit() ) != 0){
+                    descuento.setText( Integer.toString( daoV.determinarDescuento( cliente.getNit() ) ));
+                } else{
+                    descuento.setText("No aplica");
+                }
             }
             nit.setEnabled(false);
             buscar.setEnabled(false);
@@ -161,19 +164,65 @@ public class ManejadorVenta {
         stock.setText(Integer.toString(electrodomesticosSucursal.get(indice).getExistencia()));    
     }
     
-    public void agregarVenta( JTextField cantidad, Venta ventana, JTextField total){
-        float subTotal = Integer.parseInt( cantidad.getText()) * electrodomesticosSucursal.get(indice).getPrecio();
-        Factura factura =  new Factura(electrodomesticosSucursal.get(indice).getIdElectrodomestico(), electrodomesticosSucursal.get(indice).getNombre(), electrodomesticosSucursal.get(indice).getPrecio(), Integer.parseInt(cantidad.getText()), subTotal, electrodomesticosSucursal.get(indice).getIdInventario());
-        facturas.add(factura);
-        calcularTotal();
-        total.setText(Float.toString(this.total));
-        llenarTabla(ventana);
+    public void agregarVenta( JTextField cantidad, Venta ventana, JTextField total, JTextField totalSinDescuento, JTextField descuento, JTextField stock){
+        
+        boolean productoPresente = false;
+        int index=0;
+        for (int i = 0; i < facturas.size(); i++) {
+            if(facturas.get(i).getDescripcion().equals(ventana.getNombreProducto().getSelectedItem())){
+                productoPresente = true;
+            }
+            index = i;
+        }
+        
+        if( productoPresente ){
+            System.out.println(facturas.get(index).getCantidad() );
+            if (facturas.get(index).getStock() >= (facturas.get(index).getCantidad() + Integer.parseInt(cantidad.getText()) )){
+                float subTotal = (facturas.get(index).getCantidad() + Integer.parseInt(cantidad.getText()) ) * electrodomesticosSucursal.get(indice).getPrecio();
+                facturas.get(index).setCantidad(facturas.get(index).getCantidad() + Integer.parseInt(cantidad.getText()));
+                facturas.get(index).setSubTotal(subTotal);
+                calcularTotal();
+        
+                totalSinDescuento.setText(Float.toString(this.total));
+                total.setText(Float.toString(this.calcularDescuentoyTotal(this.total, descuento.getText())));
+                llenarTabla(ventana);
+            } else{
+                JOptionPane.showMessageDialog(ventana, "No es posible agregar este producto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            float subTotal = Integer.parseInt( cantidad.getText()) * electrodomesticosSucursal.get(indice).getPrecio();
+            Factura factura =  new Factura(electrodomesticosSucursal.get(indice).getIdElectrodomestico(), electrodomesticosSucursal.get(indice).getNombre(), electrodomesticosSucursal.get(indice).getPrecio(), Integer.parseInt(cantidad.getText()), subTotal, electrodomesticosSucursal.get(indice).getIdInventario(), Integer.parseInt(stock.getText()));
+            facturas.add(factura);
+            calcularTotal();
+        
+            totalSinDescuento.setText(Float.toString(this.total));
+            total.setText(Float.toString(this.calcularDescuentoyTotal(this.total, descuento.getText())));
+            llenarTabla(ventana);
+        }
+        
+        
     }
     
     private void calcularTotal(){
         this.total = 0;
         for(Factura factura: facturas){
             this.total = this.total + factura.getSubTotal();
+        }
+        this.total = (float)(Math.round(this.total * 100.0)/100.0);
+    }
+    
+    private float calcularDescuentoyTotal( float totalSinDescuento, String descuento){
+       
+        if( !descuento.equals("No aplica") ){
+            
+             
+            float cantidadDescontada = ( Integer.parseInt(descuento) * totalSinDescuento ) / 100;
+            System.out.println(cantidadDescontada);
+            float total = totalSinDescuento - cantidadDescontada;
+            total = (float)(Math.round(total * 100.0) /100.0);
+            return total;
+        } else {
+            return totalSinDescuento;
         }
     }
     
@@ -187,9 +236,9 @@ public class ManejadorVenta {
         eliminar.setEnabled(true);
     }
     
-    public void eliminarCompra( JTable tabla, Venta ventana, JComboBox nombreProducto, JButton eliminar, JTextField total ){
+    public void eliminarCompra( JTable tabla, Venta ventana, JComboBox nombreProducto, JButton eliminar, JTextField total, JTextField totalSinDescuento, JTextField descuento ){
         if(tabla.getSelectedRow() == -1 ){
-            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun articulo para ser modificado", "ERROR AL MODIFICAR PRODUCTO", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun articulo para ser eliminado", "ERROR AL MODIFICAR PRODUCTO", JOptionPane.WARNING_MESSAGE);
         } else {
             int response = JOptionPane.showConfirmDialog(null,"¿Estas Seguro de eliminar este Registro?", "ELIMINAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             if (response==JOptionPane.YES_OPTION){
@@ -208,6 +257,33 @@ public class ManejadorVenta {
             
             calcularTotal();
             total.setText(Float.toString(this.total));
+            totalSinDescuento.setText(Float.toString(this.total));
+            total.setText(Float.toString(this.calcularDescuentoyTotal(this.total, descuento.getText())));
+        }
+        
+    }
+    
+    public void realizarVenta( Empleado empleado, JButton generarVenta, JComboBox tipo, Venta ventana){
+        if(facturas.size()== 0){
+            JOptionPane.showMessageDialog(null, "No puedes generar una venta si no hay productos", "PELIGRO", JOptionPane.WARNING_MESSAGE);
+            generarVenta.setEnabled(false);
+        } else{
+            if( tipo.getSelectedItem().equals("C/F") ){
+                cliente.setNit("C/F");
+            }
+            if( daoV.addVenta(this.total, cliente.getNit(), empleado.getUsername()) ){
+            for(Factura factura: facturas){
+                if( daoV.addDetalleVenta(factura) && daoV.actualizarStock(factura) ){
+                 
+                } else {
+                   JOptionPane.showMessageDialog(null, "Error al insertar los detalles de la venta", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Venta Realizada correctamente", "Venta", JOptionPane.INFORMATION_MESSAGE);
+            } else{
+                JOptionPane.showMessageDialog(null, "Error al insertar la venta", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+            this.reiniciarCampos(ventana, empleado);
         }
         
     }
@@ -234,6 +310,12 @@ public class ManejadorVenta {
         public boolean isCellEditable(EventObject e) {
             return false; // Establece el modo de edición en "solo lectura"
         }
+    }
+    
+    public void reiniciarCampos( Venta ventana, Empleado empleado){
+        Venta ventaRecargada = new Venta( empleado );
+        ventana.setVisible(false);
+        ventaRecargada.setVisible(true);
     }
 
 }

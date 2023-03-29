@@ -98,12 +98,12 @@ public class BodegaDAO {
         }
     }
     
-    public boolean updateInventario( Electrodomestico electrodomestico ){
+    public boolean updateInventario( Electrodomestico electrodomestico, int sucursal ){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
             
             preSt.setInt(1, electrodomestico.getIdElectrodomestico());
-             
+            preSt.setInt(2, sucursal); 
             ResultSet result = preSt.executeQuery();
             
             while( result.next() ){
@@ -125,11 +125,12 @@ public class BodegaDAO {
         }
     }
     
-    public boolean deleteInventario(Electrodomestico electrodomestico ){
+    public boolean deleteInventario(Electrodomestico electrodomestico, int sucursal ){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
             
             preSt.setInt(1, electrodomestico.getIdElectrodomestico());
+            preSt.setInt(2, sucursal); 
              
             ResultSet result = preSt.executeQuery();
             
