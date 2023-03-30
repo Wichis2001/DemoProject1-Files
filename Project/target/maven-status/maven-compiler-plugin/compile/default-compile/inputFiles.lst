@@ -1,28 +1,28 @@
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/electrodomesticos/Electrodomestico.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/venta/Venta.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/BodegaDAO.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/DetalleVenta.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/VentaDAO.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/inventario/InventarioHome.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/inventario/SeleccionProducto.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Conexion.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/Factura.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorHomePageBodega.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Querys.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Insert.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/Venta.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Update.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorLogin.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/venta/Cliente.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorSeleccionProducto.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/users/Cliente.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorCliente.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/login/Login.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/EmpleadoDAO.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/InventarioDAO.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorVenta.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/users/Empleado.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Delete.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorInventario.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/ClienteDAO.java
-/home/luis/Proyectos/Proyectos Universidad/Proyectos Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/bodega/HomePage.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/electrodomesticos/Electrodomestico.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/Venta.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/login/Login.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Delete.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/EmpleadoDAO.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorHomePageBodega.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Insert.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorInventario.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/inventario/InventarioHome.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Querys.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/bodega/HomePage.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorLogin.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/venta/Venta.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/DetalleVenta.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/users/Empleado.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorVenta.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/venta/Cliente.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/VentaDAO.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/ClienteDAO.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorSeleccionProducto.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Conexion.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ui/inventario/SeleccionProducto.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/manejadores/ManejadorCliente.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/InventarioDAO.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/users/Cliente.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/ventas/Factura.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/Update.java
+/home/luiss/Proyectos/Sexto Semestre/Manejo e Implementación de Archivos/DemoProject1-Files/Project/src/main/java/postgres/models/BodegaDAO.java

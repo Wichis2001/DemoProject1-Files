@@ -57,7 +57,7 @@ public class Login extends javax.swing.JFrame {
         tituloPrincipal.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 48)); // NOI18N
         tituloPrincipal.setForeground(new java.awt.Color(0, 0, 0));
         tituloPrincipal.setText("ELECTRONIC-HOMES");
-        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 560, 50));
+        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 20, 780, 50));
 
         logInText.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 24)); // NOI18N
         logInText.setForeground(new java.awt.Color(0, 0, 0));
@@ -103,9 +103,9 @@ public class Login extends javax.swing.JFrame {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 iniciarSesionAncestorAdded(evt);
             }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         iniciarSesion.addActionListener(new java.awt.event.ActionListener() {
