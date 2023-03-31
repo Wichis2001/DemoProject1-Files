@@ -7,11 +7,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import manejadores.reportes.ManejadorProductosMasIngresos;
 import ui.admin.AdminHomePage;
-import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Está ventana me permite mostrarle al usuario el reporte de los productos que generan más ingresos
  * @author luis
  */
 public class ProductosMasIngresos extends javax.swing.JFrame {
@@ -22,6 +21,8 @@ public class ProductosMasIngresos extends javax.swing.JFrame {
     AdminHomePage admin;
     /**
      * Creates new form HomePage
+     * @param empleado
+     * @param admin
      */
     public ProductosMasIngresos( Empleado empleado, AdminHomePage admin ) {
         initComponents();
@@ -33,6 +34,10 @@ public class ProductosMasIngresos extends javax.swing.JFrame {
         manejador.llenarTabla(this);
     }
     
+    /**
+     * Este método me devuelve la talba asociada la ventana
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }

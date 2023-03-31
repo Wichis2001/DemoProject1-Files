@@ -14,11 +14,16 @@ import postgres.Querys;
 import postgres.Update;
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para el inventario
  * @author luis
  */
 public class InventarioDAO {
     
+    /**
+     * Este método me permite poder ver el listado de electrodomesticos en la DB
+     * @param local
+     * @return
+     */
     public ArrayList listadoElectrodomesticos( int local ){
         ArrayList<Electrodomestico>listadoElectrodomesticos=new ArrayList<>();
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryElectrodomesticosInventario)){
@@ -40,6 +45,11 @@ public class InventarioDAO {
         return listadoElectrodomesticos;
     } 
     
+    /**
+     * Este método me devuelve el listado de producos disponibles en la cantidad de electrodomesticos por sucursal en la DB
+     * @param local
+     * @return
+     */
     public ArrayList listadoElectrodomesticosSeleccionProducto( int local ){
         ArrayList<Electrodomestico>listadoElectrodomesticos=new ArrayList<>();
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryElectrodomesticoSolicitados)){
@@ -61,6 +71,12 @@ public class InventarioDAO {
         return listadoElectrodomesticos;
     } 
     
+    /**
+     * Este método me permite poder eliminar un inventario que se encuentre en la DB
+     * @param electrodomestico
+     * @param sucursal
+     * @return
+     */
     public boolean deleteInventario(Electrodomestico electrodomestico, int sucursal ){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
@@ -88,6 +104,12 @@ public class InventarioDAO {
         }
     }
     
+    /**
+     * Este método me permite poder modificar la existencia de un producto en la DB
+     * @param electrodomestico
+     * @param sucursal
+     * @return
+     */
     public boolean existeProducto(Electrodomestico electrodomestico, int sucursal ){
         int existe = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
@@ -110,6 +132,13 @@ public class InventarioDAO {
         return false;
     }
     
+    /**
+     * Este método me permite poder actualizar la existencia de origen en la DB
+     * @param electrodomestico
+     * @param sucursalOrigen
+     * @param cantidadSolicitada
+     * @return
+     */
     public boolean actualizacionExistenciaOrigen( Electrodomestico electrodomestico, int sucursalOrigen, int cantidadSolicitada){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
@@ -139,6 +168,13 @@ public class InventarioDAO {
         }
     }
     
+    /**
+     * Este método me permite poder actualizar la existencia del destino en la DB
+     * @param electrodomestico
+     * @param sucursalDestino
+     * @param cantidadSolicitada
+     * @return
+     */
     public boolean actualizacionExistenciaDestino( Electrodomestico electrodomestico, int sucursalDestino, int cantidadSolicitada ){
         int idInventario = 0;
         int existencia = 0;
@@ -171,7 +207,13 @@ public class InventarioDAO {
         }
     }
     
-    
+    /**
+     * Este método me permite poder asignar un nuevo producto en la DB
+     * @param electrodomestico
+     * @param pedido
+     * @param sucursalPedido
+     * @return
+     */
     public boolean asignacionNuevoProducto( Electrodomestico electrodomestico, int pedido, int sucursalPedido ){
         
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertInventarioSucursal)){

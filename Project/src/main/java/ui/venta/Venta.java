@@ -4,21 +4,18 @@
  */
 package ui.venta;
 
-import ui.bodega.*;
-import electrodomesticos.Electrodomestico;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import manejadores.ManejadorHomePageBodega;
 import manejadores.ManejadorVenta;
 import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Este método me permite poder mostrar una venta donde el usuario puede establecer una venta
  * @author luis
  */
 public class Venta extends javax.swing.JFrame {
@@ -29,6 +26,7 @@ public class Venta extends javax.swing.JFrame {
     
     /**
      * Creates new form HomePage
+     * @param empleado
      */
     public Venta( Empleado empleado ) {
         initComponents();
@@ -53,30 +51,58 @@ public class Venta extends javax.swing.JFrame {
         manejador.llenarTabla(this);
     }
     
+    /**
+     * Esté metodo me devuelve la tabla asignada a la venta
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }
 
+    /**
+     * Este método me devuelve el JTextField que contiene el NIT
+     * @return
+     */
     public JTextField getNit() {
         return nit;
     }
 
+    /**
+     * Esté metodo me devuelve el nombre del producto del usuario
+     * @return
+     */
     public JComboBox<String> getNombreProducto() {
         return nombreProducto;
     }
 
+    /**
+     * Esté metodo me devuelve el boton de buscar cliente
+     * @return
+     */
     public JButton getBuscarCliente() {
         return buscarCliente;
     }
 
+    /**
+     * Este metodo me devuelve el boton de edición de clientes
+     * @return
+     */
     public JButton getEditar() {
         return editar;
     }
 
+    /**
+     * Este método me devuelve el nombre del cliente
+     * @return
+     */
     public JTextField getNombre() {
         return nombre;
     }
 
+    /**
+     * Esté metodo me pemrite cambiar el nombre del cliente
+     * @param nombre
+     */
     public void setNombre(JTextField nombre) {
         this.nombre = nombre;
     }

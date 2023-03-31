@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"electrodomesticos"},{"l":"manejadores"},{"l":"manejadores.reportes"},{"l":"postgres"},{"l":"postgres.models"},{"l":"reporte"},{"l":"ui.admin"},{"l":"ui.admin.reporte"},{"l":"ui.bodega"},{"l":"ui.inventario"},{"l":"ui.login"},{"l":"ui.venta"},{"l":"users"},{"l":"ventas"}];updateSearchResults();

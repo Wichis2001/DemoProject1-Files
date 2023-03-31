@@ -10,13 +10,18 @@ import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder establecer la ventana para el home page del administrador
  * @author luiss
  */
 public class AdminHomePage extends javax.swing.JFrame {
 
     ManejadorAdminHomePage manejador = new ManejadorAdminHomePage();
     Empleado empleado;
+
+    /**
+     *  Este constructor me permite poder establecer el admin home page
+     * @param empleado
+     */
     public AdminHomePage( Empleado empleado ) {
         initComponents();
         this.setLocationRelativeTo(null);

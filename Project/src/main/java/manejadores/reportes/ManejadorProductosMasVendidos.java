@@ -23,7 +23,7 @@ import postgres.models.ReportesDAO;
 import ui.admin.reporte.ProductosMasVendidos;
 
 /**
- *
+ * Esta clase me permite manejar la ventana que contiene el reporte de los productos más vendidos de una empresa
  * @author luiss
  */
 public class ManejadorProductosMasVendidos {
@@ -90,7 +90,7 @@ public class ManejadorProductosMasVendidos {
     }
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Modificamos el titulo de las columnas de la tabla
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

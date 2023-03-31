@@ -24,12 +24,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.InventarioDAO;
-import ui.inventario.InventarioHome;
 import ui.inventario.SeleccionProducto;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder manejar la ventana de selección de productos
  * @author luis
  */
 public class ManejadorSeleccionProducto {
@@ -40,6 +39,11 @@ public class ManejadorSeleccionProducto {
     private DefaultListSelectionModel selectionModel = new DefaultListSelectionModel();
     private InventarioDAO dao = new InventarioDAO();
     
+    /**
+     * Este metodo me permite poder enlazar el llenado de los combobox acorde al número de sucursal
+     * @param sucursalSeleccionada
+     * @param sucursal
+     */
     public void llenadoCombobox( JComboBox sucursalSeleccionada, int sucursal ){
         if( sucursal == 1 ){
             sucursalSeleccionada.addItem("Sucursal Norte");
@@ -57,6 +61,7 @@ public class ManejadorSeleccionProducto {
     private int seleccionarIndex( JComboBox sucursalSeleccionada ){
         int numero;
         System.out.println(sucursalSeleccionada.getSelectedItem().toString());
+        //Devolvemos el index de la sucursal acorde al volor númerico
         switch (sucursalSeleccionada.getSelectedItem().toString()) {
             case "Sucursal Central":
                 numero = 1;
@@ -76,23 +81,33 @@ public class ManejadorSeleccionProducto {
         return numero;
     }
     
+    /**
+     * Este metodo me permite poder actualizar el inventario de los productos acorde al producto seleccionado
+     * @param ventana
+     * @param empleado
+     * @param producto
+     */
     public void actualizarInventario(SeleccionProducto ventana, Empleado empleado, JComboBox producto){
+        //Nos aseguramos de que se haya seleccionado un producto
         if(ventana.getTable().getSelectedRow() == -1 ){
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun articulo para transferir", "ERROR AL TRANSFERIR PRODUCTO", JOptionPane.WARNING_MESSAGE);
         } else {
             int response = JOptionPane.showConfirmDialog(null,"¿Estas seguro que deseas transferir este producto?", "TRANSFERIR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             if (response==JOptionPane.YES_OPTION){
+                //Verificamos que el usuario quira eliminar el producto y creamos un nuevo electrodomestico
                 Electrodomestico electrodomestico = new Electrodomestico();
                 electrodomestico.setIdElectrodomestico(Integer.parseInt(modelo.getValueAt(ventana.getTable().getSelectedRow(), 0).toString()));
                 electrodomestico.setExistencia(Integer.parseInt(modelo.getValueAt(ventana.getTable().getSelectedRow(), 3).toString()));
                 electrodomestico.setNombre( modelo.getValueAt(ventana.getTable().getSelectedRow(), 1).toString());
                 electrodomestico.setPrecio(Float.parseFloat( modelo.getValueAt(ventana.getTable().getSelectedRow(), 2).toString()));
                 try{
+                    //Verificamos la existencia del producto garantizando la integridad de los datos para permitir la actualización
                     int existencia = Integer.parseInt( JOptionPane.showInputDialog("Ingresa las unidades que deseas transferir"));
                     if( existencia > 0 && electrodomestico.getExistencia() >= existencia){
- 
+                       //Verificamos que el producto exista
                         if( dao.existeProducto(electrodomestico, empleado.getId_sucursal())){
                             System.out.print("Exuste");
+                            //Realizamos la actualización en la sucursal de origen y la sucursal de destino
                             if( (dao.actualizacionExistenciaOrigen(electrodomestico, seleccionarIndex(producto), existencia)) && (dao.actualizacionExistenciaDestino(electrodomestico, empleado.getId_sucursal(), existencia))){
                                 JOptionPane.showMessageDialog(null, "Producto trasladado a la sucursal de destino con éxito");
                                 llenarTabla(ventana, producto);
@@ -101,6 +116,7 @@ public class ManejadorSeleccionProducto {
                             }
                         } else {
                             System.out.print("NO Exuste");
+                            //Realizamos la actualización en la sucursal del origen y la sucursal del destino
                             if( (dao.actualizacionExistenciaOrigen(electrodomestico, seleccionarIndex(producto), existencia)) && (dao.asignacionNuevoProducto(electrodomestico, existencia, empleado.getId_sucursal()))){
                                 JOptionPane.showMessageDialog(null, "Producto trasladado a la sucursal de destino con éxito");
                                 llenarTabla(ventana, producto);
@@ -108,6 +124,7 @@ public class ManejadorSeleccionProducto {
                                 JOptionPane.showMessageDialog(null, "Error al trasladar los productos existentes a la sucursal de destino");
                             }
                         }
+                        //Error en la transacción
                     } else {
                         JOptionPane.showMessageDialog(null, "No se puede transferir esa existencia de productos", "PELIGRO", JOptionPane.WARNING_MESSAGE );
                     }
@@ -123,6 +140,7 @@ public class ManejadorSeleccionProducto {
     /**
      * Metodo que me permite llenar una tabla asignandole un modelo y los datos
      * @param ventana
+     * @param sucursalSeleccionada
      */
     public void llenarTabla(SeleccionProducto ventana, JComboBox sucursalSeleccionada){
         JTable tabla= ventana.getTable();
@@ -152,6 +170,7 @@ public class ManejadorSeleccionProducto {
     /**
      *  Este metodo me permite modificar los datos de una tabla a travez de los datos asignados a mi tabla
      * @param tabla
+     * @param local
      */
     public void setDatos(JTable tabla, int local){
         //Establecemos un objeto el cual contendra mis datos
@@ -180,7 +199,7 @@ public class ManejadorSeleccionProducto {
     }
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Realizamos el cambio de los titulos de las columnas de la tabla
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

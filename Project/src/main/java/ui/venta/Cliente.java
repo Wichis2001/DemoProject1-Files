@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import manejadores.ManejadorCliente;
 
 /**
- *
+ * Esta clase me permite mostrar una venta en la cual puedo crar un nuevo cliente
  * @author luis
  */
 public class Cliente extends javax.swing.JFrame {
@@ -20,6 +20,9 @@ public class Cliente extends javax.swing.JFrame {
     private ManejadorCliente manejador = new ManejadorCliente();
     /**
      * Creates new form Cliente
+     * @param venta
+     * @param cliente
+     * @param edicion
      */
     public Cliente( Venta venta, boolean edicion, users.Cliente cliente) {
         initComponents();

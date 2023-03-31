@@ -4,24 +4,14 @@
  */
 package ui.admin.reporte;
 
-import ui.inventario.*;
-import ui.bodega.*;
-import electrodomesticos.Electrodomestico;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import manejadores.ManejadorInventario;
 import manejadores.reportes.ManejadadorEmpleadosMasIngresos;
-import manejadores.reportes.ManejadorClientesMasGanancias;
-import manejadores.reportes.ManejadorEmpleadosMasVentas;
-import manejadores.reportes.ManejadorProductosMasVendidos;
-import manejadores.reportes.ManejadorSucursalesMasVentas;
 import ui.admin.AdminHomePage;
-import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Está ventana me permite mostrarle al usuario el reporte de los empleados con más ingresos
  * @author luis
  */
 public class EmpleadosMasIngresos extends javax.swing.JFrame {
@@ -32,6 +22,8 @@ public class EmpleadosMasIngresos extends javax.swing.JFrame {
     AdminHomePage admin;
     /**
      * Creates new form HomePage
+     * @param empleado
+     * @param admin
      */
     public EmpleadosMasIngresos( Empleado empleado, AdminHomePage admin ) {
         initComponents();
@@ -43,6 +35,10 @@ public class EmpleadosMasIngresos extends javax.swing.JFrame {
         manejador.llenarTabla(this);
     }
     
+    /**
+     * Este método me devuelve la tabla asociada a la ventana
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }

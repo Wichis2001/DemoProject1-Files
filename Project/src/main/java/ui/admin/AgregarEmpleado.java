@@ -4,15 +4,13 @@
  */
 package ui.admin;
 
-import ui.venta.*;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import manejadores.ManejadorAgregarEmpleado;
-import manejadores.ManejadorCliente;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder agregar un nuevo empleado a través de una interfaz gráfica
  * @author luis
  */
 public class AgregarEmpleado extends javax.swing.JFrame {
@@ -22,6 +20,8 @@ public class AgregarEmpleado extends javax.swing.JFrame {
     private AdminHomePage admin;
     /**
      * Creates new form Cliente
+     * @param empleado
+     * @param admin
      */
     public AgregarEmpleado( Empleado empleado, AdminHomePage admin ) {
         initComponents();

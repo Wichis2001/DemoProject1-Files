@@ -19,12 +19,20 @@ import ui.admin.reporte.SucursalesMasVentas;
 import users.Empleado;
 
 /**
- *
+ * Está clase me permite poder manejar la ventana que incluye el AdminHomePage
  * @author luis
  */
 public class ManejadorAdminHomePage {
     
+    /**
+     * Este metodo me permite poder dirigir que ventana de reporte se va generar al cambiar la opción del JComboBOx
+     * @param admin
+     * @param opcion
+     * @param seleccionarReporte
+     * @param empleado
+     */
     public void dirigirReporte( AdminHomePage admin, JComboBox opcion, JButton seleccionarReporte, Empleado empleado ){
+        //Vemos que tipo de reporte tenemos y mostramos la ventana
         switch( opcion.getSelectedItem().toString() ){
             case "Top 10 Productos más vendidos":
                 ProductosMasVendidos reportePV = new ProductosMasVendidos(empleado, admin);
@@ -63,7 +71,8 @@ public class ManejadorAdminHomePage {
                 reportePMIS.setVisible(true);
                 break;
         }
+        //Deshabilitamos el botón de selección de reporte y la página de adminsitración
         seleccionarReporte.setEnabled(false);
-        admin.setEnabled(false);
+        admin.setVisible(false);
     }
 }

@@ -8,19 +8,21 @@ import electrodomesticos.Electrodomestico;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.List;
 import postgres.Conexion;
-import postgres.Delete;
 import postgres.Insert;
 import postgres.Querys;
 import postgres.Update;
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para la bodega
  * @author luis
  */
 public class BodegaDAO {
     
+    /**
+     * Este metodo me regresa un arraylist con el listado de todos los electrodomesticos disponibles
+     * @return
+     */
     public ArrayList listadoElectrodomesticos( ){
         ArrayList<Electrodomestico>listadoElectrodomesticos=new ArrayList<>();
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryElectrodomesticos)){
@@ -40,6 +42,10 @@ public class BodegaDAO {
         return listadoElectrodomesticos;
     }
     
+    /**
+     * Este metodo me devueve un entero del ultimo producto agregado para poder realizar la insercion al inventario
+     * @return
+     */
     public int ultimoProductoAgregado( ){
         int ultimoProductoAgregado = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryUltimoProducto)){
@@ -54,6 +60,11 @@ public class BodegaDAO {
         return ultimoProductoAgregado;
     }
     
+    /**
+     * Esté metodo me devuelve un booleando en base a la inserción de un electrodomestico
+     * @param electrodomestico
+     * @return
+     */
     public boolean addProducto( Electrodomestico electrodomestico ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertElectrodomestico)){
             preSt.setString(1, electrodomestico.getNombre());
@@ -69,6 +80,12 @@ public class BodegaDAO {
         }
     }
     
+    /**
+     * Este metodo me devuelve un booleando en base a la inserción del inventario de una sucursal
+     * @param electrodomestico
+     * @param identificadorProducto
+     * @return
+     */
     public boolean addInventario ( Electrodomestico electrodomestico, int identificadorProducto){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertInventario)){
             preSt.setInt(1, electrodomestico.getExistencia());
@@ -84,6 +101,11 @@ public class BodegaDAO {
         }
     }
     
+    /**
+     * Este método me devuelve un booleano en base al éxito de la actualización de un electrodomestico
+     * @param electrodomestico
+     * @return
+     */
     public boolean updateElectrodomestico( Electrodomestico electrodomestico ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Update.updateElectrodomestico) ){
             preSt.setString(1, electrodomestico.getNombre());
@@ -98,6 +120,12 @@ public class BodegaDAO {
         }
     }
     
+    /**
+     * Este método me permite poder actualizar el inventario en base al electrodomestico y la sucursal para el inventario
+     * @param electrodomestico
+     * @param sucursal
+     * @return
+     */
     public boolean updateInventario( Electrodomestico electrodomestico, int sucursal ){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){
@@ -125,6 +153,12 @@ public class BodegaDAO {
         }
     }
     
+    /**
+     * Esté metodo me permite poder elimitar una fila de la tabla del inventario
+     * @param electrodomestico
+     * @param sucursal
+     * @return
+     */
     public boolean deleteInventario(Electrodomestico electrodomestico, int sucursal ){
         int idInventario = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBusquedaIDInventario)){

@@ -22,10 +22,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.ReportesDAO;
 import ui.admin.reporte.ClientesMasGanancias;
-import ui.admin.reporte.ProductosMasVendidos;
 
 /**
- *
+ * Esta clase me permite manipular la ventana que contiene el reporte de clientes con más ganancias.
  * @author luiss
  */
 public class ManejadorClientesMasGanancias {
@@ -91,7 +90,7 @@ public class ManejadorClientesMasGanancias {
     }
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Modificamos el titulo de las columnas de la tabla
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

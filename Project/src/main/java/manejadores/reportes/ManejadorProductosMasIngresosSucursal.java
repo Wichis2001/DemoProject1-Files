@@ -22,13 +22,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.ReportesDAO;
-import ui.admin.reporte.ProductosMasIngresos;
 import ui.admin.reporte.ProductosMasIngresosSucursal;
-import ui.admin.reporte.ProductosMasVendidosSucursal;
-
 
 /**
- *
+ * Está clase me permite manejar la ventana que incluye los productos más ingresados en una sucursal
  * @author luis
  */
 public class ManejadorProductosMasIngresosSucursal {
@@ -94,7 +91,7 @@ public class ManejadorProductosMasIngresosSucursal {
     }
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Modificamos el titulo de las columnas de la tabla
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

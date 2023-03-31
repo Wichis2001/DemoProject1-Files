@@ -28,7 +28,7 @@ import ui.bodega.HomePage;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder manejar la ventana de acceso a la bodega
  * @author luis
  */
 public class ManejadorHomePageBodega {
@@ -41,6 +41,13 @@ public class ManejadorHomePageBodega {
     private boolean modoEditar = false;
     private int idElectrodomestico = 0;
 
+    /**
+     * Este método me permite poder verificar  que los campos de nombre, precio y existencia no se encuentren vacíos
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @param agregar
+     */
     public void verificarAgregar(  JTextField nombre, JTextField precio, JTextField existencia, JButton agregar ){
         if( !nombre.getText().isEmpty() && !precio.getText().isEmpty() && !existencia.getText().isEmpty() && !modoEditar ){
             agregar.setEnabled( true );
@@ -106,29 +113,50 @@ public class ManejadorHomePageBodega {
         tabla.setModel(modelo);
     }
     
+    /**
+     * Este metodo me permite poder agregar un nuevo producto a la DB
+     * @param ventana
+     * @param electrodomestico
+     */
     public void addProducto( HomePage ventana, Electrodomestico electrodomestico ){
+        //Verificamos que el producto se pueda añadir a la DB
         if( bodegaDao.addProducto(electrodomestico) ){
+            //Determinamos cual es el ultimpo producto que se inserto para que lo podamos añadir al inventario
             int ultimoProducto = bodegaDao.ultimoProductoAgregado();
+            //Añadimos el producto creado al inventario de la bodega
             if( bodegaDao.addInventario(electrodomestico, ultimoProducto) ){
                 JOptionPane.showMessageDialog(ventana, "EL producto fue agregado a la bodega con éxito", "AÑADIDO", JOptionPane.INFORMATION_MESSAGE );
                 llenarTabla(ventana);
             } else {
+                //Indicamos que no se puede agregar el producto al inventario
                 JOptionPane.showMessageDialog(ventana, "Error al agregar el producto al inventario", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         } else {
+            //Indicamos que no se puede agregar el producto
             JOptionPane.showMessageDialog(ventana, "Error al agregar el producto", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }
     
+    /**
+     * Verificamos el llenado de los campos para poder agregar o actualizar un producto
+     * @param ventana
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @return
+     */
     public boolean verificarLLenado( HomePage ventana, JTextField nombre, JTextField precio, JTextField existencia ){
+        //Verificamos que los campos se encuentran llenos
         if( nombre.getText().isEmpty() || precio.getText().isEmpty() || existencia.getText().isEmpty() ) {
             JOptionPane.showMessageDialog(ventana, "Aún hay campos vacios", "ERROR", JOptionPane.ERROR_MESSAGE);
             nombre.requestFocus();
             return false;
+            //Verificamos el precio del producto no sea igual o menor a cero
         } else if( Float.parseFloat(precio.getText()) <= 0 ){
             JOptionPane.showMessageDialog(ventana, "El Precio del producto no puede ser menor o igual a cero", "ERROR", JOptionPane.ERROR_MESSAGE);
             nombre.requestFocus();
             return false;
+            //Verificamos que la existencia del producto no se igual o menor a cero
         } else if( Integer.parseInt(existencia.getText()) < 0 ){
             JOptionPane.showMessageDialog(ventana, "La existencia del producto no puede ser menor o igual a cero", "ERROR", JOptionPane.ERROR_MESSAGE);
             nombre.requestFocus();
@@ -137,6 +165,15 @@ public class ManejadorHomePageBodega {
         return true;
     }
     
+    /**
+     * Este método se encarga de realizar la limpieza de los campos 
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @param agregar
+     * @param modificar
+     * @param eliminar
+     */
     public void limpiezaCampos( JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar ){
         nombre.setText("");
         precio.setText("");
@@ -148,10 +185,22 @@ public class ManejadorHomePageBodega {
         modoEditar = false;
     }
     
+    /**
+     * Esté metodo se encarga de verificar si se puede habilitar el modo de edición  para poder habilitar los campos necesarios
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @param tabla
+     * @param agregar
+     * @param modificar
+     * @param eliminar
+     */
     public void habiliatarModoEdicion( JTextField nombre, JTextField precio, JTextField existencia, JTable tabla, JButton agregar, JButton modificar, JButton eliminar ){
+        //Verificamos que se haya seleccionado un objeto en la tabla
         if(tabla.getSelectedRow() == -1 ){
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun articulo para ser modificado", "ERROR AL MODIFICAR PRODUCTO", JOptionPane.WARNING_MESSAGE);
         } else {
+            //Habilitamos los campos para poder realizar la edición
             modoEditar = true;
             modificar.setEnabled( true );
             eliminar.setEnabled( true );
@@ -164,36 +213,68 @@ public class ManejadorHomePageBodega {
         nombre.requestFocus();
     }
     
+    /**
+     * Este método me permite poder editar el elemento en la bodega
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @param agregar
+     * @param modificar
+     * @param eliminar
+     * @param ventana
+     * @param empleado
+     */
     public void editarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana, Empleado empleado ){
-         if( verificarLLenado(ventana, nombre, precio, existencia) ){
+        //Verificamos que los datos se encuentren llenados
+        if( verificarLLenado(ventana, nombre, precio, existencia) ){
+             //Creamos un nuevo objeto electrodomestico
              Electrodomestico electrodomestico = new Electrodomestico();
              electrodomestico.setIdElectrodomestico(idElectrodomestico);
              electrodomestico.setExistencia(Integer.parseInt(existencia.getText()));
              electrodomestico.setNombre(nombre.getText());
              electrodomestico.setPrecio(Float.parseFloat(precio.getText()));
+             //Verificamos que la actualización se pueda realizar
              if( bodegaDao.updateElectrodomestico(electrodomestico) ){
+                 //Verifiamos que se pueda actualizar el inventario
                  if( bodegaDao.updateInventario(electrodomestico, empleado.getId_sucursal() ) ){
                      JOptionPane.showMessageDialog(null, "El producto fue actualizado en bodega correctamente", "Actualización", JOptionPane.INFORMATION_MESSAGE);
                      llenarTabla(ventana);
                  } else {
+                     // Error al acutalizar el producot
                      JOptionPane.showMessageDialog(null, "El inventario de bodega no fue actualizado correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
                  }
              } else {
                  JOptionPane.showMessageDialog(null, "El producto de bodega no fue actualizado correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
              }
+             //Realizamos una limpieza de los productos
              limpiezaCampos(nombre, precio, existencia, agregar, modificar, eliminar);
          }
     }
     
+    /**
+     * Este método me permite poder eliminar un titulo en la bodega
+     * @param nombre
+     * @param precio
+     * @param existencia
+     * @param agregar
+     * @param modificar
+     * @param eliminar
+     * @param ventana
+     * @param empleado
+     */
     public void eliminarBodega(JTextField nombre, JTextField precio, JTextField existencia, JButton agregar, JButton modificar, JButton eliminar, HomePage ventana, Empleado empleado ){
         int response = JOptionPane.showConfirmDialog(ventana,"¿Estas Seguro de eliminar este Registro?", "ELIMINAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        //Verificamos que se la opción seleccionada sea de sí
         if (response==JOptionPane.YES_OPTION){
+            //Verificamos el llenado  de los campos para garantizar que se haya seleccionado una opción
             if( verificarLLenado(ventana, nombre, precio, existencia) ){
+             //Creamos un nuevo electrodomestico para poder eliminarlo
              Electrodomestico electrodomestico = new Electrodomestico();
              electrodomestico.setIdElectrodomestico(idElectrodomestico);
              electrodomestico.setExistencia(Integer.parseInt(existencia.getText()));
              electrodomestico.setNombre(nombre.getText());
              electrodomestico.setPrecio(Float.parseFloat(precio.getText()));
+             //Verificamos que el elemento de la bodega sea eliminada
              if( bodegaDao.deleteInventario(electrodomestico, empleado.getId_sucursal()) ){
                 JOptionPane.showMessageDialog(null, "El producto fue eliminado de bodega correctamente", "ELIMINACIÓN", JOptionPane.INFORMATION_MESSAGE);
                 llenarTabla(ventana);
@@ -209,7 +290,7 @@ public class ManejadorHomePageBodega {
     
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Habilitamos  el método de edición para los titulos de las columnas de las tablas
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

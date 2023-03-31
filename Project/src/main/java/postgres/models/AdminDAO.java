@@ -9,15 +9,19 @@ import java.sql.ResultSet;
 import postgres.Conexion;
 import postgres.Insert;
 import postgres.Querys;
-import users.Cliente;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para un administrador
  * @author luis
  */
 public class AdminDAO {
     
+    /**
+     * Este metodo me permite poder buscar un cliente que se encuentre ingresado en la DB
+     * @param nombreEmpleado
+     * @return
+     */
     public Boolean buscarCliente( String nombreEmpleado ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBuscarEmpleado)){
             
@@ -34,6 +38,11 @@ public class AdminDAO {
         return false;
     }
     
+    /**
+     * Este metodo me permite poder agregar un empleado en la DB para que el usuario pueda inserter un nuevo empleado
+     * @param empleado
+     * @return
+     */
     public Boolean addEmpleado( Empleado empleado ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertEmpleado)){
             preSt.setString(1, empleado.getUsername());

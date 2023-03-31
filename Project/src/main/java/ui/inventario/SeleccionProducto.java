@@ -4,18 +4,14 @@
  */
 package ui.inventario;
 
-import ui.bodega.*;
 import electrodomesticos.Electrodomestico;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import manejadores.ManejadorHomePageBodega;
 import manejadores.ManejadorSeleccionProducto;
-import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Este método me permite establecer una ventana para el correspondiente producto para una sucursal
  * @author luis
  */
 public class SeleccionProducto extends javax.swing.JFrame {
@@ -26,6 +22,8 @@ public class SeleccionProducto extends javax.swing.JFrame {
     Electrodomestico electrodomestico = new Electrodomestico();
     /**
      * Creates new form HomePage
+     * @param empleado
+     * @param inventario
      */
     public SeleccionProducto( Empleado empleado, InventarioHome inventario ) {
         initComponents();
@@ -52,6 +50,10 @@ public class SeleccionProducto extends javax.swing.JFrame {
         sucursalSeleccionada.setEnabled(true);
     }
     
+    /**
+     * Este método me devuelve la tabla de un usuario
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }

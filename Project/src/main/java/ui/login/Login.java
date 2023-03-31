@@ -6,14 +6,12 @@ package ui.login;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import manejadores.ManejadorLogin;
 import postgres.Conexion;
 
 /**
- *
+ * Crear una nueva ventana de Login para que el usuario pueda conectarse al sistema
  * @author luiss
  */
 public class Login extends javax.swing.JFrame {
@@ -23,6 +21,9 @@ public class Login extends javax.swing.JFrame {
      */
     ManejadorLogin manejador = new ManejadorLogin();
     
+    /**
+     * Constructor que me permite poder establecer los alineamientos de la ventana
+     */
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);

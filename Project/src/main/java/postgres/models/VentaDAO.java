@@ -15,12 +15,16 @@ import postgres.Update;
 import ventas.Factura;
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para la venta
  * @author luis
  */
 public class VentaDAO {
     
-    
+    /**
+     * Este método me devuelve el listado de productos de una sucursal para realizar la correspondiente venta
+     * @param noSucursal
+     * @return
+     */
     public ArrayList listadoProductos( int noSucursal ){
         ArrayList<Electrodomestico>listadoElectrodomesticos=new ArrayList<>();
   
@@ -42,6 +46,11 @@ public class VentaDAO {
         return listadoElectrodomesticos;
     }
     
+    /**
+     * Este método me permite poder determinar los descuentos para una venta
+     * @param nit
+     * @return
+     */
     public int determinarDescuento( String nit ){
         int descuento = 0;
         float total = 0;
@@ -86,6 +95,13 @@ public class VentaDAO {
         return total;
     }
     
+    /**
+     * Este método me permite poder agregar una venta en base al total, el nit y el username
+     * @param total
+     * @param nit
+     * @param username
+     * @return
+     */
     public boolean addVenta( float total, String nit, String username ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertVenta)){
             preSt.setFloat(1, (float)(Math.round(total*100.0)/100.0));
@@ -101,6 +117,11 @@ public class VentaDAO {
         }
     }
     
+    /**
+     * Este método me permite poder agregar un detalle de la venta
+     * @param factura
+     * @return
+     */
     public boolean addDetalleVenta( Factura factura ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertDetalleVenta)){
             preSt.setFloat(1, (float)(Math.round(factura.getSubTotal()*100.0)/100.0));
@@ -117,6 +138,11 @@ public class VentaDAO {
         }
     }
     
+    /**
+     * Este método me permite poder actualizar el stock en DB de un electrodomestico
+     * @param factura
+     * @return
+     */
     public boolean actualizarStock( Factura factura ){
         System.out.println( factura.getStock() + " " + factura.getCantidad() );
         int existenciaActualizada = factura.getStock() - factura.getCantidad();

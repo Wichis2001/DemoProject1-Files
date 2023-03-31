@@ -4,9 +4,6 @@
  */
 package ui.inventario;
 
-import ui.bodega.*;
-import electrodomesticos.Electrodomestico;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import manejadores.ManejadorInventario;
@@ -14,7 +11,7 @@ import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite mostrarle al usuario una ventana en la cual podra realizar las correspondientes del inventario
  * @author luis
  */
 public class InventarioHome extends javax.swing.JFrame {
@@ -24,6 +21,7 @@ public class InventarioHome extends javax.swing.JFrame {
     private int local = 0;
     /**
      * Creates new form HomePage
+     * @param empleado
      */
     public InventarioHome( Empleado empleado ) {
         initComponents();
@@ -48,10 +46,17 @@ public class InventarioHome extends javax.swing.JFrame {
         agregarProducto.requestFocus();
     }
     
+    /**
+     * Este método me devuelve la tabla empleada del inventario
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }
     
+    /**
+     * Este método me permite poder llenar una tabla de la ventana
+     */
     public void llenarTabla(){
         manejador.llenarTabla(this, empleado.getId_sucursal());
     }

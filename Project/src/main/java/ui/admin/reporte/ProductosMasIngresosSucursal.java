@@ -4,24 +4,14 @@
  */
 package ui.admin.reporte;
 
-import ui.inventario.*;
-import ui.bodega.*;
-import electrodomesticos.Electrodomestico;
-import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import manejadores.ManejadorInventario;
-import manejadores.reportes.ManejadorClientesMasGanancias;
 import manejadores.reportes.ManejadorProductosMasIngresosSucursal;
-import manejadores.reportes.ManejadorProductosMasVendidos;
-import manejadores.reportes.ManejadorProductosMasVendidosSucursal;
-import manejadores.reportes.ManejadorSucursalesMasVentas;
 import ui.admin.AdminHomePage;
-import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Está ventana me permite mostrarle al usuario el reporte de los productos coon más ingresos de sucursal
  * @author luis
  */
 public class ProductosMasIngresosSucursal extends javax.swing.JFrame {
@@ -32,6 +22,8 @@ public class ProductosMasIngresosSucursal extends javax.swing.JFrame {
     private int local = 0;
     /**
      * Creates new form HomePage
+     * @param empleado
+     * @param admin
      */
     public ProductosMasIngresosSucursal( Empleado empleado, AdminHomePage admin ) {
         initComponents();
@@ -42,6 +34,10 @@ public class ProductosMasIngresosSucursal extends javax.swing.JFrame {
         this.tabla.setEnabled(false);
     }
     
+    /**
+     * Este método me devuelve la tabla asociada a la ventana
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }

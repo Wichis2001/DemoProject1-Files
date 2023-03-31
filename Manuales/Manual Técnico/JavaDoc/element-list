@@ -1,0 +1,14 @@
+electrodomesticos
+manejadores
+manejadores.reportes
+postgres
+postgres.models
+reporte
+ui.admin
+ui.admin.reporte
+ui.bodega
+ui.inventario
+ui.login
+ui.venta
+users
+ventas

@@ -11,11 +11,16 @@ import postgres.Querys;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para un empleado
  * @author luis
  */
 public class EmpleadoDAO {
     
+    /**
+     * Este método me permite poder garantizar la existencia de un empleado en la DB
+     * @param empleado
+     * @return
+     */
     public Empleado existenciaEmpleado(Empleado empleado){
         int findUser = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement( Querys.queryUsuarios ) ){

@@ -23,12 +23,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import postgres.models.InventarioDAO;
-import ui.bodega.HomePage;
 import ui.inventario.InventarioHome;
 import users.Empleado;
 
 /**
- *
+ * Esta clase me permite manejar la ventana de inventario
  * @author luis
  */
 public class ManejadorInventario {
@@ -42,6 +41,7 @@ public class ManejadorInventario {
     /**
      * Metodo que me permite llenar una tabla asignandole un modelo y los datos
      * @param ventana
+     * @param local
      */
     public void llenarTabla(InventarioHome ventana, int local){
         JTable tabla= ventana.getTable();
@@ -71,6 +71,7 @@ public class ManejadorInventario {
     /**
      *  Este metodo me permite modificar los datos de una tabla a travez de los datos asignados a mi tabla
      * @param tabla
+     * @param local
      */
     public void setDatos(JTable tabla, int local){
         //Establecemos un objeto el cual contendra mis datos
@@ -98,18 +99,27 @@ public class ManejadorInventario {
         tabla.setModel(modelo);
     }
     
+    /**
+     * Este método me permite poder eliminar un elemento del inventario
+     * @param ventana
+     * @param local
+     * @param empleado
+     */
     public void elimininarInventario(InventarioHome ventana, int local, Empleado empleado){
+        //Nos aseguramos de que se haya seleccionada un elemento en la tabla
         if(ventana.getTable().getSelectedRow() == -1 ){
             JOptionPane.showMessageDialog(null, "No se ha seleccionado ningun articulo para ser eliminado", "ERROR AL ELIMINAR PRODUCTO", JOptionPane.WARNING_MESSAGE);
         } else {
             int response = JOptionPane.showConfirmDialog(null,"¿Estas Seguro de eliminar este Registro?", "ELIMINAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-            
+            //Nos aseguramos de que el usuario en verdad quiera eliminar el registro
             if (response==JOptionPane.YES_OPTION){
+                //Elaboramos un nuevo electrodomestico
                 Electrodomestico electrodomestico = new Electrodomestico();
                 electrodomestico.setIdElectrodomestico(Integer.parseInt(modelo.getValueAt(ventana.getTable().getSelectedRow(), 0).toString()));
                 electrodomestico.setExistencia(Integer.parseInt(modelo.getValueAt(ventana.getTable().getSelectedRow(), 3).toString()));
                 electrodomestico.setNombre( modelo.getValueAt(ventana.getTable().getSelectedRow(), 1).toString());
                 electrodomestico.setPrecio(Float.parseFloat( modelo.getValueAt(ventana.getTable().getSelectedRow(), 2).toString()));
+                //Nos aseguramos de que el inventario se pueda eliminar
                 if( dao.deleteInventario(electrodomestico, empleado.getId_sucursal() ) ){
                     JOptionPane.showMessageDialog(null, "El producto fue eliminado de bodega correctamente", "ELIMINACIÓN", JOptionPane.INFORMATION_MESSAGE);
                     llenarTabla(ventana, local);
@@ -123,7 +133,7 @@ public class ManejadorInventario {
     }
     
     private class CustomHeaderRenderer implements TableCellRenderer {
-
+        //Le asignamos una modificación a los titulos de las columnas
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int rowIndex, int colIndex) {
 
             JLabel label = new JLabel(value.toString());

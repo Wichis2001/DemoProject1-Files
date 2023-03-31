@@ -25,6 +25,13 @@ public class Empleado {
         this.contrasenia = contrasenia;
     }
 
+    /**
+     * Este constructor me permite poder crear un empleado en base al username, la contraseña, el rol y el id de la sucursal
+     * @param username
+     * @param contrasenia
+     * @param rol
+     * @param id_sucursal
+     */
     public Empleado(String username, String contrasenia, int rol, int id_sucursal) {
         this.username = username;
         this.contrasenia = contrasenia;

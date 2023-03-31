@@ -14,11 +14,16 @@ import users.Cliente;
 
 
 /**
- *
+ * Esta clase me permite poder realizar todas las procesos de consultas o inserciones en la DB para los clientes
  * @author luis
  */
 public class ClienteDAO {
     
+    /**
+     * Este metodo me permite poder buscar un cliente que pueda existir una DB
+     * @param cliente
+     * @return
+     */
     public Cliente buscarCliente( Cliente cliente ){
         int existeCliente = 0;
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Querys.queryBuscarCliente)){
@@ -41,6 +46,11 @@ public class ClienteDAO {
         return null;
     }
     
+    /**
+     * Este método me permite poder agregar un nuevo cliente a la DB
+     * @param cliente
+     * @return
+     */
     public boolean addCliente( Cliente cliente ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Insert.insertCliente)){
             preSt.setString(1, cliente.getNit());
@@ -56,6 +66,11 @@ public class ClienteDAO {
         }
     }
     
+    /**
+     * Este método me permite poder actualizar un nuevo cliente en la DB
+     * @param cliente
+     * @return
+     */
     public boolean updateCliente( Cliente cliente ){
         try( PreparedStatement preSt = Conexion.dbConnection.prepareStatement(Update.updateCliente) ){
             preSt.setString(3, cliente.getNit());

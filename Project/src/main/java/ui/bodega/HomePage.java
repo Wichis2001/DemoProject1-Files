@@ -13,7 +13,7 @@ import ui.login.Login;
 import users.Empleado;
 
 /**
- *
+ * Esta ventana me permite poder establecer la ventana asociada al home page de la bodega
  * @author luis
  */
 public class HomePage extends javax.swing.JFrame {
@@ -23,6 +23,7 @@ public class HomePage extends javax.swing.JFrame {
     Electrodomestico electrodomestico = new Electrodomestico();
     /**
      * Creates new form HomePage
+     * @param empleado
      */
     public HomePage( Empleado empleado ) {
         initComponents();
@@ -34,6 +35,10 @@ public class HomePage extends javax.swing.JFrame {
         nombre.requestFocus();
     }
     
+    /**
+     * Me devuelve la tabla asociada a la ventana 
+     * @return
+     */
     public JTable getTable(){
         return this.tabla;
     }
