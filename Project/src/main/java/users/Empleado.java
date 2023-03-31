@@ -25,6 +25,15 @@ public class Empleado {
         this.contrasenia = contrasenia;
     }
 
+    public Empleado(String username, String contrasenia, int rol, int id_sucursal) {
+        this.username = username;
+        this.contrasenia = contrasenia;
+        this.rol = rol;
+        this.id_sucursal = id_sucursal;
+    }
+    
+    
+
     /**
      * Me devuelve el username del empleado
      * @return

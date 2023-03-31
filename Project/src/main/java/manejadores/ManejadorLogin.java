@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import postgres.models.EmpleadoDAO;
+import ui.admin.AdminHomePage;
 import ui.bodega.HomePage;
 import ui.inventario.InventarioHome;
 import ui.login.Login;
@@ -46,6 +47,9 @@ public class ManejadorLogin {
                 } else if( empleado.getRol()==2){
                     InventarioHome inventario = new InventarioHome(empleado);
                     inventario.setVisible(true);
+                } else if( empleado.getRol()== 4){
+                    AdminHomePage admin = new AdminHomePage(empleado);
+                    admin.setVisible(true);
                 }
                 
             } else{

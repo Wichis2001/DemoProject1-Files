@@ -15,6 +15,7 @@ import manejadores.reportes.ManejadorClientesMasGanancias;
 import manejadores.reportes.ManejadorProductosMasVendidos;
 import manejadores.reportes.ManejadorSucursalesMasIngresos;
 import manejadores.reportes.ManejadorSucursalesMasVentas;
+import ui.admin.AdminHomePage;
 import ui.login.Login;
 import users.Empleado;
 
@@ -26,17 +27,19 @@ public class SucursalesMasIngresos extends javax.swing.JFrame {
     
     ManejadorSucursalesMasIngresos manejador = new ManejadorSucursalesMasIngresos();
     Empleado empleado;
+    AdminHomePage admin;
     private int local = 0;
     /**
      * Creates new form HomePage
      */
-    public SucursalesMasIngresos( Empleado empleado ) {
+    public SucursalesMasIngresos( Empleado empleado, AdminHomePage admin ) {
         initComponents();
         this.setLocationRelativeTo(null);
         nombreEmpleado.setText( empleado.getUsername() );
         this.empleado = empleado;
         this.tabla.setEnabled(false);
         manejador.llenarTabla(this);
+        this.admin = admin;
     }
     
     public JTable getTable(){
@@ -159,14 +162,14 @@ public class SucursalesMasIngresos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
-        //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        //Regresamos al menú de administrador
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
-            //Cerramos esta ventana y procedemos a mostrar el menu manejadores
+            JOptionPane.showMessageDialog(this, "Regresando...");
+            //Cerramos esta ventana y procedemos a mostrar el menu de administrador
             this.setVisible(false);
-            Login login = new Login();
-            login.setVisible(true);
+            admin.setVisible(true);
+            admin.setEnabled(true);
         }
     }//GEN-LAST:event_RegresarMouseClicked
 

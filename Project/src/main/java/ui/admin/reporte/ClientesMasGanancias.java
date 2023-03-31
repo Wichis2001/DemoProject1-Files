@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import manejadores.ManejadorInventario;
 import manejadores.reportes.ManejadorClientesMasGanancias;
 import manejadores.reportes.ManejadorProductosMasVendidos;
+import ui.admin.AdminHomePage;
 import ui.login.Login;
 import users.Empleado;
 
@@ -24,17 +25,19 @@ public class ClientesMasGanancias extends javax.swing.JFrame {
     
     ManejadorClientesMasGanancias manejador = new ManejadorClientesMasGanancias();
     Empleado empleado;
+    AdminHomePage admin;
     private int local = 0;
     /**
      * Creates new form HomePage
      */
-    public ClientesMasGanancias( Empleado empleado ) {
+    public ClientesMasGanancias( Empleado empleado, AdminHomePage admin ) {
         initComponents();
         this.setLocationRelativeTo(null);
         nombreEmpleado.setText( empleado.getUsername() );
         this.empleado = empleado;
         this.tabla.setEnabled(false);
         manejador.llenarTabla(this);
+        this.admin = admin;
     }
     
     public JTable getTable(){
@@ -158,13 +161,13 @@ public class ClientesMasGanancias extends javax.swing.JFrame {
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
         //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
+            JOptionPane.showMessageDialog(this, "Regresando...");
             //Cerramos esta ventana y procedemos a mostrar el menu manejadores
             this.setVisible(false);
-            Login login = new Login();
-            login.setVisible(true);
+            admin.setVisible(true);
+            admin.setEnabled(true);    
         }
     }//GEN-LAST:event_RegresarMouseClicked
 

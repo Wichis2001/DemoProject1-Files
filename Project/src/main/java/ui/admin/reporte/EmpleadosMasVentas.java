@@ -15,6 +15,7 @@ import manejadores.reportes.ManejadorClientesMasGanancias;
 import manejadores.reportes.ManejadorEmpleadosMasVentas;
 import manejadores.reportes.ManejadorProductosMasVendidos;
 import manejadores.reportes.ManejadorSucursalesMasVentas;
+import ui.admin.AdminHomePage;
 import ui.login.Login;
 import users.Empleado;
 
@@ -26,16 +27,18 @@ public class EmpleadosMasVentas extends javax.swing.JFrame {
     
     ManejadorEmpleadosMasVentas manejador = new ManejadorEmpleadosMasVentas();
     Empleado empleado;
+    AdminHomePage admin;
     private int local = 0;
     /**
      * Creates new form HomePage
      */
-    public EmpleadosMasVentas( Empleado empleado ) {
+    public EmpleadosMasVentas( Empleado empleado, AdminHomePage admin ) {
         initComponents();
         this.setLocationRelativeTo(null);
         nombreEmpleado.setText( empleado.getUsername() );
         this.empleado = empleado;
         this.tabla.setEnabled(false);
+        this.admin = admin;
         manejador.llenarTabla(this);
     }
     
@@ -80,7 +83,7 @@ public class EmpleadosMasVentas extends javax.swing.JFrame {
 
         sucursalEmpleado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
         sucursalEmpleado.setForeground(new java.awt.Color(0, 0, 153));
-        getContentPane().add(sucursalEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 740, -1));
+        getContentPane().add(sucursalEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 740, 20));
 
         nombreEmpleado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
         nombreEmpleado.setForeground(new java.awt.Color(0, 0, 153));
@@ -159,14 +162,14 @@ public class EmpleadosMasVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
-        //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        //Regresamos al menú de administrador
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
-            //Cerramos esta ventana y procedemos a mostrar el menu manejadores
+            JOptionPane.showMessageDialog(this, "Regresando...");
+            //Cerramos esta ventana y procedemos a mostrar el menu de administrador
             this.setVisible(false);
-            Login login = new Login();
-            login.setVisible(true);
+            admin.setVisible(true);
+            admin.setEnabled(true);
         }
     }//GEN-LAST:event_RegresarMouseClicked
 

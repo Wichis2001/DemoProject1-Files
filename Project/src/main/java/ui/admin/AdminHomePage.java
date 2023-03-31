@@ -4,17 +4,25 @@
  */
 package ui.admin;
 
+import javax.swing.JOptionPane;
+import manejadores.ManejadorAdminHomePage;
+import ui.login.Login;
+import users.Empleado;
+
 /**
  *
  * @author luiss
  */
 public class AdminHomePage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminHomePage
-     */
-    public AdminHomePage() {
+    ManejadorAdminHomePage manejador = new ManejadorAdminHomePage();
+    Empleado empleado;
+    public AdminHomePage( Empleado empleado ) {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.empleado = empleado;
+        nombreEmpleado.setText( empleado.getUsername() );
+        reporte.requestFocus();
     }
 
     /**
@@ -26,57 +34,147 @@ public class AdminHomePage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        tituloPrincipal = new javax.swing.JLabel();
+        textoSecundario1 = new javax.swing.JLabel();
+        nombreEmpleado = new javax.swing.JLabel();
+        nombreTitulo = new javax.swing.JLabel();
+        nombreTitulo1 = new javax.swing.JLabel();
+        reporte = new javax.swing.JComboBox<>();
+        subtitulo1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        cerrarSesion = new javax.swing.JLabel();
+        verReporte = new javax.swing.JButton();
+        crearUsuario = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tituloPrincipal.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 48)); // NOI18N
+        tituloPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+        tituloPrincipal.setText("ELECTRONIC-HOMES");
+        getContentPane().add(tituloPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 580, 50));
+
+        textoSecundario1.setFont(new java.awt.Font("Bitstream Vera Serif", 3, 36)); // NOI18N
+        textoSecundario1.setForeground(new java.awt.Color(0, 0, 0));
+        textoSecundario1.setText("Admin Panel");
+        getContentPane().add(textoSecundario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 290, 50));
+
+        nombreEmpleado.setFont(new java.awt.Font("Courier 10 Pitch", 0, 14)); // NOI18N
+        nombreEmpleado.setForeground(new java.awt.Color(0, 0, 153));
+        getContentPane().add(nombreEmpleado, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 620, 20));
+
+        nombreTitulo.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        nombreTitulo.setForeground(new java.awt.Color(0, 0, 153));
+        nombreTitulo.setText("Nombre Empleado:");
+        getContentPane().add(nombreTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, -1, -1));
+
+        nombreTitulo1.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        nombreTitulo1.setForeground(new java.awt.Color(0, 0, 153));
+        nombreTitulo1.setText("Selecciona un Tipo de Reporte:");
+        getContentPane().add(nombreTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, -1, -1));
+
+        reporte.setBackground(new java.awt.Color(102, 255, 255));
+        reporte.setFont(new java.awt.Font("Courier 10 Pitch", 3, 15)); // NOI18N
+        reporte.setForeground(new java.awt.Color(0, 0, 153));
+        reporte.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Top 10 Productos más vendidos", "Top 10 Clientes que generan más ganancias", "Top 3 Sucursales con más ventas", "Top 3 Sucursales con más ingresos", "Top 3 Empleados con más ventas", "Top 3 Empleados con más ingresos", "Top 10 Productos con más ingresos", "Top 5 Productos más vendidos por sucursal", "Top 5 Productos con más ingresos por sucursal" }));
+        reporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reporteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(reporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 610, 30));
+
+        subtitulo1.setFont(new java.awt.Font("Courier 10 Pitch", 0, 36)); // NOI18N
+        subtitulo1.setForeground(new java.awt.Color(0, 0, 153));
+        subtitulo1.setText("Selecciona una opción:");
+        getContentPane().add(subtitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 160, 740, -1));
+
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 3, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("CERRAR SESIÓN");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 400, 120, -1));
+
+        cerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/pngwing.com (4) (1).png"))); // NOI18N
+        cerrarSesion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cerrarSesionMouseClicked(evt);
+            }
+        });
+        getContentPane().add(cerrarSesion, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 320, -1, -1));
+
+        verReporte.setBackground(new java.awt.Color(102, 255, 255));
+        verReporte.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        verReporte.setForeground(new java.awt.Color(0, 0, 153));
+        verReporte.setText("Ver Reporte");
+        verReporte.setEnabled(false);
+        verReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verReporteActionPerformed(evt);
+            }
+        });
+        getContentPane().add(verReporte, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 290, 250, 90));
+
+        crearUsuario.setBackground(new java.awt.Color(102, 255, 255));
+        crearUsuario.setFont(new java.awt.Font("Courier 10 Pitch", 1, 14)); // NOI18N
+        crearUsuario.setForeground(new java.awt.Color(0, 0, 153));
+        crearUsuario.setText("Crear Usuario");
+        crearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearUsuarioActionPerformed(evt);
+            }
+        });
+        getContentPane().add(crearUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 290, 250, 90));
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homescreen.png"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminHomePage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reporteActionPerformed
+        verReporte.setEnabled(true);
+        verReporte.requestFocus();
+       
+    }//GEN-LAST:event_reporteActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdminHomePage().setVisible(true);
-            }
-        });
-    }
+    private void verReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verReporteActionPerformed
+         manejador.dirigirReporte(this, reporte, verReporte, empleado);
+    }//GEN-LAST:event_verReporteActionPerformed
+
+    private void cerrarSesionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cerrarSesionMouseClicked
+        //Regresamos al menú de manejadores
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (response==JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
+            //Cerramos esta ventana y procedemos a mostrar el menu manejadores
+            this.setVisible(false);
+            Login login = new Login();
+            login.setVisible(true);
+        }        
+    }//GEN-LAST:event_cerrarSesionMouseClicked
+
+    private void crearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearUsuarioActionPerformed
+        AgregarEmpleado agregar = new AgregarEmpleado(empleado, this);
+        this.setVisible(false);
+        agregar.setVisible(true);
+    }//GEN-LAST:event_crearUsuarioActionPerformed
+
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel cerrarSesion;
+    private javax.swing.JButton crearUsuario;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel nombreEmpleado;
+    private javax.swing.JLabel nombreTitulo;
+    private javax.swing.JLabel nombreTitulo1;
+    private javax.swing.JComboBox<String> reporte;
+    private javax.swing.JLabel subtitulo1;
+    private javax.swing.JLabel textoSecundario1;
+    private javax.swing.JLabel tituloPrincipal;
+    private javax.swing.JButton verReporte;
     // End of variables declaration//GEN-END:variables
 }

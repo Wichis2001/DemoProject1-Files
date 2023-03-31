@@ -16,6 +16,7 @@ import manejadores.reportes.ManejadorClientesMasGanancias;
 import manejadores.reportes.ManejadorEmpleadosMasVentas;
 import manejadores.reportes.ManejadorProductosMasVendidos;
 import manejadores.reportes.ManejadorSucursalesMasVentas;
+import ui.admin.AdminHomePage;
 import ui.login.Login;
 import users.Empleado;
 
@@ -28,15 +29,17 @@ public class EmpleadosMasIngresos extends javax.swing.JFrame {
     ManejadadorEmpleadosMasIngresos manejador = new ManejadadorEmpleadosMasIngresos();
     Empleado empleado;
     private int local = 0;
+    AdminHomePage admin;
     /**
      * Creates new form HomePage
      */
-    public EmpleadosMasIngresos( Empleado empleado ) {
+    public EmpleadosMasIngresos( Empleado empleado, AdminHomePage admin ) {
         initComponents();
         this.setLocationRelativeTo(null);
         nombreEmpleado.setText( empleado.getUsername() );
         this.empleado = empleado;
         this.tabla.setEnabled(false);
+        this.admin = admin;
         manejador.llenarTabla(this);
     }
     
@@ -149,7 +152,7 @@ public class EmpleadosMasIngresos extends javax.swing.JFrame {
 
         subtitulo2.setFont(new java.awt.Font("Courier 10 Pitch", 0, 36)); // NOI18N
         subtitulo2.setForeground(new java.awt.Color(0, 0, 153));
-        subtitulo2.setText("TOP 3 EMPLEADOS CON MÁS VENTAS");
+        subtitulo2.setText("TOP 3 EMPLEADOS CON MÁS INGRESOS");
         getContentPane().add(subtitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, -1, -1));
 
         fondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/homescreen.png"))); // NOI18N
@@ -161,13 +164,13 @@ public class EmpleadosMasIngresos extends javax.swing.JFrame {
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
         //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
+            JOptionPane.showMessageDialog(this, "Regresando...");
             //Cerramos esta ventana y procedemos a mostrar el menu manejadores
             this.setVisible(false);
-            Login login = new Login();
-            login.setVisible(true);
+            admin.setVisible(true);
+            admin.setEnabled(true);
         }
     }//GEN-LAST:event_RegresarMouseClicked
 

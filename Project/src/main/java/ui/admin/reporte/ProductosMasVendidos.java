@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import manejadores.ManejadorInventario;
 import manejadores.reportes.ManejadorProductosMasVendidos;
+import ui.admin.AdminHomePage;
 import ui.login.Login;
 import users.Empleado;
 
@@ -24,14 +25,15 @@ public class ProductosMasVendidos extends javax.swing.JFrame {
     ManejadorProductosMasVendidos manejador = new ManejadorProductosMasVendidos();
     Empleado empleado;
     private int local = 0;
+    AdminHomePage admin;
     /**
      * Creates new form HomePage
      */
-    public ProductosMasVendidos( Empleado empleado ) {
+    public ProductosMasVendidos( Empleado empleado, AdminHomePage admin) {
         initComponents();
         this.setLocationRelativeTo(null);
         nombreEmpleado.setText( empleado.getUsername() );
-        
+        this.admin = admin;
         this.empleado = empleado;
         this.tabla.setEnabled(false);
         manejador.llenarTabla(this);
@@ -157,14 +159,15 @@ public class ProductosMasVendidos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegresarMouseClicked
-        //Regresamos al menú de manejadores
-        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Cerrar Sesión?", "CERRAR SESIÓN",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        //Regresamos al menú de administrador
+        int response = JOptionPane.showConfirmDialog(this,"¿Quieres Regresar?", "REGRESAR",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (response==JOptionPane.YES_OPTION){
-            JOptionPane.showMessageDialog(this, "Cerrando Sesión...");
-            //Cerramos esta ventana y procedemos a mostrar el menu manejadores
+            JOptionPane.showMessageDialog(this, "Regresando...");
+            //Cerramos esta ventana y procedemos a mostrar el menu de administrador
+            admin.setVisible(true);
+            admin.setEnabled(true);
             this.setVisible(false);
-            Login login = new Login();
-            login.setVisible(true);
+            
         }
     }//GEN-LAST:event_RegresarMouseClicked
 

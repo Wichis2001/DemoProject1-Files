@@ -75,7 +75,7 @@ public class ManejadorSucursalesMasIngresos {
         modelo.setRowCount(0);
         //Esteblecemos el Array con los elementos encontrados
         List<reporte.Reporte>listadoReportes;
-        listadoReportes = reportesDao.sucursalesMasVentas();
+        listadoReportes = reportesDao.sucursalesMasIngresos();
         //Recorremos el array de errores para extraer sus atributos
         for(int x=0; x<listadoReportes.size();x++){
             //Asignamos los datos a travéz de los atributos de los datos
